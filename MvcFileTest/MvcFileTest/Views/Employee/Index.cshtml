@@ -13,15 +13,24 @@
     <title>GetNewView</title>
 </head>
 <body>
-    @* Hello, @Model.UserName *@
+    @*View中显示UserName*@
+    <div style="text-align:center"> Hello, @Model.UserName 
+        @*实现注销功能*@
+        <a href="/Authentication/Logout">Logout</a>
+    </div>
     <hr />
     <div>
+        @*//非管理员用户无法add new，添加新Employee
         <a href="/Employee/AddNew">
             <input type="button" name="BtnAdd" value="Add New" />
-        </a>
+        </a>*@
+        @{
+            //RenderAction和Action作用相同，Render更快，Action显示前修改action执行结果。   //Html.Action("GetAddNewLink");
+            Html.RenderAction("GetAddNewLink");
+        }
     </div>
     <div>
-        <table>
+        <table border="1">
             <tr>
                 <th>Employee Name</th>
                 <th>Salary</th>

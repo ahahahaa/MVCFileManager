@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MvcFileTest.Filter;
 using MvcFileTest.Models;
 using MvcFileTest.ViewModels;
 
@@ -32,7 +33,7 @@ namespace MvcFileTest.Controllers
             //Model对象强制转换成ViewModel对象，在controller中处理逻辑关系
             EmployeeViewModel ve = new EmployeeViewModel();
             ve.EmployeeName = e.FirstName + " " + e.LastName;
-            ve.Salary = e.Salary.ToString("C");
+            ve.Salary = (e.Salary == null) ? "" : (Convert.ToInt32(e.Salary)).ToString("C");
             if (e.Salary > 250000)
             {
                 ve.SalaryColor = "yellow";
@@ -46,6 +47,7 @@ namespace MvcFileTest.Controllers
 
         }
 
+        [Authorize]
         public ActionResult Index()
         {
             EmployeeListViewModel employeeListViewModel = new EmployeeListViewModel();
@@ -59,7 +61,7 @@ namespace MvcFileTest.Controllers
             {
                 EmployeeViewModel empViewModel = new EmployeeViewModel();
                 empViewModel.EmployeeName = emp.FirstName + " " + emp.LastName;
-                empViewModel.Salary = emp.Salary.ToString("C");
+                empViewModel.Salary = (emp.Salary == null) ? "" : (Convert.ToInt32(emp.Salary)).ToString("C");
                 if (emp.Salary > 15000)
                 {
                     empViewModel.SalaryColor = "yellow";
@@ -72,16 +74,37 @@ namespace MvcFileTest.Controllers
             }
 
             employeeListViewModel.Employees = empViewModels;
+            //View中显示UserName
+            employeeListViewModel.UserName = User.Identity.Name;
             //employeeListViewModel.UserName = "Admin";
             return View("Index", employeeListViewModel);
 
         }
-
-        public ActionResult AddNew()
+        
+        [AdminFilter]
+        public ActionResult GetAddNewLink()
         {
-            return View("CreateEmployee");
+            if (Convert.ToBoolean(Session["IsAdmin"]))
+            { 
+                return PartialView("AddNewLink");
+            }
+            else
+            {
+                return new EmptyResult();
+            }
         }
 
+        //可被/Employee/AddNew的URL直接访问，不安全！引入MVC Action过滤器
+        [AdminFilter]       //绑定过滤器
+        public ActionResult AddNew()
+        {
+            //再次请求Add New时，将上次输入验证错误时记录在CreateEmployeeViewModel中的值传入
+            return View("CreateEmployee", new CreateEmployeeViewModel());
+            //return View("CreateEmployee”);
+        }
+
+
+        [AdminFilter]
         public ActionResult SaveEmployee(Employee e, string BtnSubmit)
         {
             //Model Binder: input "First Name"'s name matches e.FirstName
@@ -107,15 +130,29 @@ namespace MvcFileTest.Controllers
                     }
                     else
                     {
-                        return View("CreateEmployee");
+                        //错误验证值的保留
+                        CreateEmployeeViewModel vm = new CreateEmployeeViewModel();
+                        vm.FirstName = e.FirstName;
+                        vm.LastName = e.LastName;
+                        if (e.Salary.HasValue)
+                        {
+                            vm.Salary = e.Salary.ToString();                        
+                        }
+                        else
+                        {
+                            vm.Salary = ModelState["Salary"].Value.AttemptedValue;                       
+                        }
+                        return View("CreateEmployee", vm);
+                        //return View("CreateEmployee");
                     }
                 case "Cancel":
                     return RedirectToAction("Index");
             }
-            //空白屏幕
+            //空白屏幕，在这里不会执行
             return new EmptyResult();
             
         }
+
 
     }
 }

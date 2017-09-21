@@ -1,0 +1,38 @@
+﻿@{
+    Layout = null;
+}
+
+@using MvcFileTest.Models
+@model UserDetails
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <div>
+        @Html.ValidationMessage("CredentialError", new {style="color:red;" })
+        <!-- <form action="/Authentication/DoLogin" method="post"></form> -->
+        @using (Html.BeginForm("DoLogin", "Authentication", FormMethod.Post))
+        {
+            <!--  -->
+            @Html.LabelFor(c=>c.UserName)
+            <!-- <input id="UserName" name="UserName" type="text" value="" /> -->
+            @Html.TextBoxFor(x=>x.UserName)
+            //登陆页面验证
+             @Html.ValidationMessageFor(x=>x.UserName)
+            <br />
+            
+            @Html.LabelFor(c => c.PassWord)
+            @Html.PasswordFor(x => x.PassWord)
+            <br />
+            
+            <input type="submit" name="BtnSubmit" value="Login" />
+            
+        }
+    </div>
+</body>
+</html>

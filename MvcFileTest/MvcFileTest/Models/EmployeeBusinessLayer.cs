@@ -8,6 +8,37 @@ namespace MvcFileTest.Models
 {
     public class EmployeeBusinessLayer
     {
+        //验证用户功能，硬编码
+        //public bool IsValidUser(UserDetails u)
+        //{
+        //    if (u.UserName == "Admin" && u.PassWord == "Admin")
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        //用户权限管理
+        public UserStatus GetUserValidity(UserDetails u)
+        {
+            if (u.UserName == "Admin" && u.PassWord == "Admin")
+            {
+                return UserStatus.AuthenticatedAdmin;
+            }
+            else if (u.UserName == "Zhechen" && u.PassWord == "Zhang")
+            {
+                return UserStatus.AuthenticatedUser;
+            }
+            else 
+            {
+                return UserStatus.NonAuthenticatedUser;
+            }
+        }
+
+
         public List<Employee> GetEmployees()
         {
             //硬编程

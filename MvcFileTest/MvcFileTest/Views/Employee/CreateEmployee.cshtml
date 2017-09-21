@@ -2,6 +2,10 @@
     Layout = null;
 }
 
+@*store input value for recreate*@
+@using MvcFileTest.ViewModels
+@model CreateEmployeeViewModel
+
 <!DOCTYPE html>
 
 <html>
@@ -26,42 +30,42 @@
                         First Name:
                     </td>
                     <td>
-                        <input type="text" id="TxtFName" name="FirstName" value="" />
+                        <input type="text" id="TxtFName" name="FirstName" value="@Model.FirstName" />
                     </td>
                 </tr>
-                @*<tr>
-                    <td colspan="2" align="right">
+                <tr>
+                    <td colspan="2">
                         @Html.ValidationMessage("FirstName")
                     </td>
-                </tr>*@
+                </tr>
 
                 <tr>
                     <td>
                         Last Name:
                     </td>
                     <td>
-                        <input type="text" id="TxtLName" name="LastName" value="" />
+                        <input type="text" id="TxtLName" name="LastName" value="@Model.LastName" />
                     </td>
                 </tr>
-                @*<tr>
-                    <td colspan="2" align="right">
+                <tr>
+                    <td colspan="2">
                         @Html.ValidationMessage("LastName")
                     </td>
-                </tr>*@
+                </tr>
 
                 <tr>
                     <td>
                         Salary:
                     </td>
                     <td>
-                        <input type="text" id="TxtSalary" name="Salary" value="" />
+                        <input type="text" id="TxtSalary" name="Salary" value="@Model.Salary" />
                     </td>
                 </tr>
-                @*<tr>
-                    <td colspan="2" align="right">
+                <tr>
+                    <td colspan="2">
                         @Html.ValidationMessage("Salary")
                     </td>
-                </tr>*@
+                </tr>
 
                 <tr>
                     <td colspan="2">
