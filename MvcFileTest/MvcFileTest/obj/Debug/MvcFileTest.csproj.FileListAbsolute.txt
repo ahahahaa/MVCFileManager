@@ -77,3 +77,5 @@ c:\users\zhechen zhang\documents\visual studio 2012\Projects\MvcFileTest\MvcFile
 c:\users\zhechen zhang\documents\visual studio 2012\Projects\MvcFileTest\MvcFileTest\obj\Debug\MvcFileTest.csprojResolveAssemblyReference.cache
 c:\users\zhechen zhang\documents\visual studio 2012\Projects\MvcFileTest\MvcFileTest\obj\Debug\MvcFileTest.dll
 c:\users\zhechen zhang\documents\visual studio 2012\Projects\MvcFileTest\MvcFileTest\obj\Debug\MvcFileTest.pdb
+C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileTest\MvcFileTest\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileTest\MvcFileTest\bin\MonAgentListener.dll

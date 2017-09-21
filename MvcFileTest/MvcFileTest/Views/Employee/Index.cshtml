@@ -1,0 +1,39 @@
+﻿@{
+    Layout = null;
+}
+
+@using MvcFileTest.ViewModels
+@model EmployeeListViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetNewView</title>
+</head>
+<body>
+    @* Hello, @Model.UserName *@
+    <hr />
+    <div>
+        <a href="/Employee/AddNew">
+            <input type="button" name="BtnAdd" value="Add New" />
+        </a>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <th>Employee Name</th>
+                <th>Salary</th>
+            </tr>
+            @foreach (EmployeeViewModel employee in Model.Employees)
+            {
+                <tr>
+                    <td>@employee.EmployeeName</td>
+                    <td style="background-color:@employee.SalaryColor">@employee.Salary</td>
+                </tr> 
+            }
+        </table>
+    </div>
+</body>
+</html>

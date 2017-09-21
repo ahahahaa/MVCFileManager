@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+//using System.Data.Entity;
+//using MvcFileTest.Data_Access_Layer;
 
 namespace MvcFileTest
 {
@@ -15,7 +17,9 @@ namespace MvcFileTest
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
+
         {
+            //Database.SetInitializer<SalesERPDAL>(new DropCreateDatabaseIfModelChanges<SalesERPDAL>());
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
@@ -23,6 +27,9 @@ namespace MvcFileTest
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            
         }
+
     }
 }
