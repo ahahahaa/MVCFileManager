@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+
+@using MvcFileManager.ViewModels
+@model CreateFileViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CreateFile</title>
+    <script>
+        function ResetForm() {
+            document.getElementById('TxtFileName').value = "";
+            document.getElementById('TxtAuthor').value = "";
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <form action="/Home/SaveFile" method="post" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td>
+                        File Name: 
+                    </td>
+                    <td>
+                        <input type="text" id="TxtFileName" name="FileName" value="@Model.FileName" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Author: 
+                    </td>
+                    <td>
+                        <input type="text" id="TxtAuthor" name="Author" value="@Model.Author" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Upload File:
+                    </td>
+                    <td>
+                        <input type="file" id="FileContext" name="UploadFile" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="BtnSubmit" value="Save File" />
+                        <input type="button" name="BtnReset" value="Reset" onclick="ResetForm();" />
+                        <input type="submit" name="BtnSubmit" value="Cancel" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

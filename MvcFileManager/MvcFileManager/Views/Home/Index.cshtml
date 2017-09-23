@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@using MvcFileManager.ViewModels
+@model FileListViewModel
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                @*<h2>@ViewBag.Message</h2>*@
+            </hgroup>
+            <p>
+                Index Describe:
+            </p>
+        </div>
+    </section>
+}
+
+<body>
+    <h2>Hello @Model.UserName</h2>
+    <hr />
+    <div>
+        @Html.ActionLink("Upload", "Upload", "Home");
+    </div>
+    <hr />
+    <div>
+        <h3>File List: </h3>
+        <table border="1">
+            <tr>
+                <th>File Name</th>
+                <th>Author</th>
+                <th>Upload Time</th>
+                <th>Version</th>
+            </tr>
+
+            @foreach (FileViewModel file in Model.FileList)
+            { 
+                <tr>
+                    <td>@file.FileName</td>
+                    <td>@file.Author</td>
+                    <td>@file.UploadTime</td>
+                    <td>@file.Version</td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
