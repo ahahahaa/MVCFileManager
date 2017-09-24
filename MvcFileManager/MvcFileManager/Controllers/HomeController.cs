@@ -8,6 +8,7 @@ using System.Web.Hosting;
 using MvcFileManager.Models;
 using MvcFileManager.ViewModels;
 using MvcFileManager.Business_Layer;
+using MvcFileManager.Data_Access_Layer;
 
 using System.Diagnostics;
 
@@ -21,7 +22,6 @@ namespace MvcFileManager.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
             FileListViewModel elvm = new FileListViewModel();
             FileBusinessLayer fbl = new FileBusinessLayer();
@@ -31,12 +31,16 @@ namespace MvcFileManager.Controllers
 
             foreach (FileDB file in files)
             {
-                FileViewModel evm = new FileViewModel();
-                evm.FileName = file.FileName;
-                evm.Author = file.Author;
-                evm.UploadTime = file.UploadTime;
-                evm.Version = file.Version;
-                evmlist.Add(evm);
+                if (!file.isDelete)
+                {
+                    FileViewModel fvm = new FileViewModel();
+                    fvm.FileId = file.FileId;
+                    fvm.FileName = file.FileName;
+                    fvm.Creater = file.Creater;
+                    fvm.UploadTime = file.UploadTime;
+                    fvm.Version = file.Version;
+                    evmlist.Add(fvm);
+                }
             }
 
             elvm.FileList = evmlist;
@@ -58,53 +62,101 @@ namespace MvcFileManager.Controllers
 
         [HttpPost]
         public ActionResult SaveFile(FileDB file, string BtnSubmit, HttpPostedFileBase UploadFile)
-        //public ActionResult SaveFile()
         {
-            //HttpPostedFileBase UploadFile = Request.Files["UploadFile"];
-            //System.Diagnostics.Debug.Write(Request.Params);
-            //FileDB file = new FileDB();
-            //String BtnSubmit = "Save File";
-            //System.Diagnostics.Debug.Write(file.FileName);
-            
             if (UploadFile != null)
             {
                 switch (BtnSubmit)
                 {
                     case "Save File":
-                        //if (ModelState.IsValid)
+
+                        file.FilePath = Path.Combine(_uploadsFolder, UploadFile.FileName);
+                        UploadFile.SaveAs(file.FilePath);
+
+                        file.Creater = "Admin";
+                        file.UploadTime = DateTime.Now;
+                        file.ModifiedTime = DateTime.Now;
+                        file.Version = 1;
+                        file.isDelete = false;
+
+                        FileBusinessLayer fbl = new FileBusinessLayer();
+                        fbl.SaveFile(file);
+
+                        return RedirectToAction("Index");
+
+                        //if (ModelState.IsValid) { }
+                        //else 
                         //{
-                            file.FilePath = Path.Combine(_uploadsFolder, UploadFile.FileName);
-                            UploadFile.SaveAs(file.FilePath);
-                            file.UploadTime = DateTime.Now;
-                            file.ModifiedTime = DateTime.Now;
-                            file.Version = 1;
-                            file.isDelete = false;
-
-                            FileBusinessLayer fbl = new FileBusinessLayer();
-                            fbl.SaveFile(file);
-                            return JavaScript("1");
-                            //return RedirectToAction("Index");
-
-                            //return Content(e.FirstName + "|" + e.LastName + "|" + e.Salary);
+                        //    CreateFileViewModel cfvm = new CreateFileViewModel();
+                        //    cfvm.FileName = file.FileName;
+                        //    return View("CreateFile", cfvm);
                         //}
-                        //else
-                        //{
-                        //    //错误验证值的保留
-                        //    CreateFileViewModel vm = new CreateFileViewModel();
-                        //    vm.FileName = file.FileName;
-                        //    vm.Author = file.Author;
 
-                        //    return JavaScript("2");
-                        //    //return View("CreateFile", vm);
-                        //}
                     case "Cancel":
-                        return JavaScript("3");
-                        //return RedirectToAction("Index");
+                        return RedirectToAction("Index");
+
                     default:
-                        return JavaScript("5");
+                        return RedirectToAction("CreateFile", new CreateFileViewModel());
                 }
             }
-            return JavaScript("4");
+            return Content("Upload Error! File is empty");
+        }
+
+
+        public ActionResult Details(int id)
+        {
+            FileBusinessLayer fbl = new FileBusinessLayer();
+            FileDB file = fbl.GetFile(id);
+
+            if (file == null)
+            {
+                return JavaScript("Error" + id);
+            }
+
+            DisplayFileViewModel pfvm = new DisplayFileViewModel();
+
+            pfvm.FileName = file.FileName;
+            pfvm.Creater = file.Creater;
+            pfvm.Version = file.Version;
+            pfvm.UploadTime = file.UploadTime;
+            pfvm.ModifiedTime = file.ModifiedTime;
+            if (file.FilePath != "")
+            {
+                pfvm.FileContent = System.IO.File.ReadAllText(file.FilePath);
+            }
+            else 
+            {
+                pfvm.FileContent = "File content is empty. Please check the file path!";
+            }
+            return View("Details", pfvm);
+
+        }
+
+
+        public ActionResult Edit(int id = 0)
+        {
+            FileBusinessLayer fbl = new FileBusinessLayer();
+            FileDB file = fbl.GetFile(id);
+
+            return View("Edit", new CreateFileViewModel());
+        }
+
+
+        public ActionResult Delete(FormCollection fcNotUsed, int id)
+        {
+            FileBusinessLayer fbl = new FileBusinessLayer();
+            FileDB file = fbl.GetFile(id);
+            
+            if (file == null)
+            {
+                return HttpNotFound();
+            }
+            
+            file.ModifiedTime = DateTime.Now;
+            file.isDelete = true;
+
+            fbl.SaveFile(file);
+ 
+            return RedirectToAction("Index");
         }
 
         //public ActionResult About()

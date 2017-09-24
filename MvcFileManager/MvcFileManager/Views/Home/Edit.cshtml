@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using MvcFileManager.ViewModels
+@model CreateFileViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TextContent</title>
+    <script>
+        function ResetForm() {
+            document.getElementById('TxtFileName').value = "";
+            document.getElementById('TxtVersion').value = "";
+            document.getElementById('TxtContent').value = "";
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h2>File Details Information</h2>
+    </div>
+    <div>
+        <form action="/Home/Edit" method="post" enctype="multipart/form-data">
+            <ul>
+                <li>
+                    <h4>File Name:</h4><br />
+                    <input type="text" id="TxtFileName" name="FileName" value="@Model.FileName" />
+                </li>
+                @*<li>
+                    <h4>Creater:</h4><br />
+                    <input type="text" id="TxtCreater" name="Creater" value="@Model.Creater" />
+                </li>
+                <li>
+                    <h4>File Upload Time:</h4><br />
+                    <input type="datetime" id="DtUploadTime" name="UploadTime" value="@Model.UploadTime" />
+                </li>
+                <li>
+                    <h4>File Last Midified Time:</h4><br />
+                    <input type="datetime" id="DtModifiedTime" name="ModifiedTime" value="@Model.ModifiedTime" />
+                </li>*@
+                <li>
+                    <h4>File Version:</h4><br />
+                    <input type="text" id="TxtVersion" name="Version" value="" />
+                </li>
+                <li>
+                    <h4>File:</h4><br />
+                    <div contenteditable="true">
+                        <input type="text" id="TxtContent" name="FileContent" value="" />
+                    </div>
+                </li>
+                <li>
+                    <input type="submit" name="BtnSubmit" value="Save" />
+                    <input type="button" name="BtnReset" value="Reset" onclick="ResetForm();" />
+                    <input type="submit" name="BtnSubmit" value="Cancel" />
+                </li>
+            </ul>
+        </form>
+    </div>
+    
+</body>
+</html>

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @using MvcFileManager.ViewModels
@@ -14,7 +14,7 @@
     <script>
         function ResetForm() {
             document.getElementById('TxtFileName').value = "";
-            document.getElementById('TxtAuthor').value = "";
+            document.getElementById('FileContext').value = "";
         }
     </script>
 </head>
@@ -23,34 +23,25 @@
         <form action="/Home/SaveFile" method="post" enctype="multipart/form-data">
             <table>
                 <tr>
-                    <td>
+                    <th>
                         File Name: 
-                    </td>
+                    </th>
                     <td>
                         <input type="text" id="TxtFileName" name="FileName" value="@Model.FileName" />
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        Author: 
-                    </td>
-                    <td>
-                        <input type="text" id="TxtAuthor" name="Author" value="@Model.Author" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
+                    <th>
                         Upload File:
-                    </td>
+                    </th>
                     <td>
-                        <input type="file" id="FileContext" name="UploadFile" />
+                        <input type="file" id="FileContext" name="UploadFile" value="" />
                     </td>
                 </tr>
 
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <input type="submit" name="BtnSubmit" value="Save File" />
                         <input type="button" name="BtnReset" value="Reset" onclick="ResetForm();" />
                         <input type="submit" name="BtnSubmit" value="Cancel" />

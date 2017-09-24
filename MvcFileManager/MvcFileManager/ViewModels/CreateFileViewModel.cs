@@ -10,8 +10,6 @@ namespace MvcFileManager.ViewModels
         
         public string FileName { get; set; }
 
-        public string Author { get; set; }
-
         public string FilePath { get; set; }
 
     }

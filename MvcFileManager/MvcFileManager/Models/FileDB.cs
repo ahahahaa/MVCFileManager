@@ -17,24 +17,23 @@ namespace MvcFileManager.Models
         public string FileName { get; set; }
 
         [Required]
-        [Display(Name = "Author")]
-        public string Author { get; set; }
+        [Display(Name = "Creater")]
+        public string Creater { get; set; }
 
         [Required]
         [Display(Name = "Upload Time")]
-        [DataType(DataType.DateTime, ErrorMessage = "Wrong Format")]
+        [DataType(DataType.DateTime, ErrorMessage = "Wrong Data Time Format")]
         public DateTime UploadTime { get; set; }
 
         [Required]
         [Display(Name = "Last Modified Time")]
-        [DataType(DataType.DateTime, ErrorMessage = "Wrong Format")]
+        [DataType(DataType.DateTime, ErrorMessage = "Wrong Date Time Format")]
         public DateTime ModifiedTime { get; set; }
 
         [Required]
         [Display(Name = "Version")]
         public int Version { get; set; }
 
-        [Required]
         public string FilePath { get; set; }
 
         [ForeignKey("FileId")]

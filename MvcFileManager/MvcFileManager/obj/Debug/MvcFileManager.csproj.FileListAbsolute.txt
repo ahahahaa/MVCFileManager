@@ -82,3 +82,5 @@ C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcF
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.Migrations.ModifyUploadTime.resources
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.Migrations.dbchange.resources
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.Migrations.controllerupdate.resources
+C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.Migrations.UpadateDB.resources
+C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.Migrations.Adddeleteanddetail.resources

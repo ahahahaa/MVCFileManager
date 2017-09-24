@@ -23,7 +23,7 @@
     <h2>Hello @Model.UserName</h2>
     <hr />
     <div>
-        @Html.ActionLink("Upload", "Upload", "Home");
+        @Html.ActionLink("Upload", "Upload");
     </div>
     <hr />
     <div>
@@ -31,7 +31,7 @@
         <table border="1">
             <tr>
                 <th>File Name</th>
-                <th>Author</th>
+                <th>Creater</th>
                 <th>Upload Time</th>
                 <th>Version</th>
             </tr>
@@ -40,10 +40,22 @@
             { 
                 <tr>
                     <td>@file.FileName</td>
-                    <td>@file.Author</td>
+                    <td>@file.Creater</td>
                     <td>@file.UploadTime</td>
                     <td>@file.Version</td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Home", htmlAttributes: new { id = file.FileId }) |
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Home", routeValues: new { id = file.FileId }, htmlAttributes: null ) |
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = file.FileId } )
+                    </td>
+
                 </tr>
+                
             }
         </table>
     </div>

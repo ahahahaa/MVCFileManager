@@ -206,11 +206,20 @@
     <Compile Include="Migrations\201709230355447_controller update.Designer.cs">
       <DependentUpon>201709230355447_controller update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709231940507_UpadateDB.cs" />
+    <Compile Include="Migrations\201709231940507_UpadateDB.Designer.cs">
+      <DependentUpon>201709231940507_UpadateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709232244355_Add delete and detail.cs" />
+    <Compile Include="Migrations\201709232244355_Add delete and detail.Designer.cs">
+      <DependentUpon>201709232244355_Add delete and detail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\FileDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CreateFileViewModel.cs" />
+    <Compile Include="ViewModels\DisplayFileViewModel.cs" />
     <Compile Include="ViewModels\FileListViewModel.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
   </ItemGroup>
@@ -333,6 +342,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\GetUploadLink.cshtml" />
     <Content Include="Views\Home\CreateFile.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709230018157_InitialCreate.resx">
@@ -346,6 +357,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709230355447_controller update.resx">
       <DependentUpon>201709230355447_controller update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709231940507_UpadateDB.resx">
+      <DependentUpon>201709231940507_UpadateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709232244355_Add delete and detail.resx">
+      <DependentUpon>201709232244355_Add delete and detail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
