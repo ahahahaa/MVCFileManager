@@ -19,7 +19,7 @@ namespace MvcFileManager.Models
         public DbSet<UserProfile> UserProfiles { get; set; }
     }
 
-    [Table("UserProfile")]
+    [Table("UserProfileDB")]
     public class UserProfile
     {
         [Key]
@@ -34,7 +34,9 @@ namespace MvcFileManager.Models
 
         public bool isModify { get; set; }
 
-        public bool isDelete { get; set; }
+        public bool isDeleteUser { get; set; }
+
+        public bool isAdmin { get; set; }
 
     }
 

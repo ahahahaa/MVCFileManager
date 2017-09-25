@@ -4,7 +4,6 @@ namespace MvcFileManager.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using MvcFileManager.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<MvcFileManager.Data_Access_Layer.FileManagerDAL>
     {

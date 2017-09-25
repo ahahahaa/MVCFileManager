@@ -214,6 +214,14 @@
     <Compile Include="Migrations\201709232244355_Add delete and detail.Designer.cs">
       <DependentUpon>201709232244355_Add delete and detail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709251259112_change userprofile.cs" />
+    <Compile Include="Migrations\201709251259112_change userprofile.Designer.cs">
+      <DependentUpon>201709251259112_change userprofile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709251314142_update.cs" />
+    <Compile Include="Migrations\201709251314142_update.Designer.cs">
+      <DependentUpon>201709251314142_update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\FileDB.cs" />
@@ -363,6 +371,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709232244355_Add delete and detail.resx">
       <DependentUpon>201709232244355_Add delete and detail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709251259112_change userprofile.resx">
+      <DependentUpon>201709251259112_change userprofile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709251314142_update.resx">
+      <DependentUpon>201709251314142_update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
