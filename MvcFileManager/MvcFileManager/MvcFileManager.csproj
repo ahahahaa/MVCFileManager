@@ -222,6 +222,14 @@
     <Compile Include="Migrations\201709251314142_update.Designer.cs">
       <DependentUpon>201709251314142_update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709251341554_db.cs" />
+    <Compile Include="Migrations\201709251341554_db.Designer.cs">
+      <DependentUpon>201709251341554_db.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709251404526_formerid.cs" />
+    <Compile Include="Migrations\201709251404526_formerid.Designer.cs">
+      <DependentUpon>201709251404526_formerid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\FileDB.cs" />
@@ -377,6 +385,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709251314142_update.resx">
       <DependentUpon>201709251314142_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709251341554_db.resx">
+      <DependentUpon>201709251341554_db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709251404526_formerid.resx">
+      <DependentUpon>201709251404526_formerid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

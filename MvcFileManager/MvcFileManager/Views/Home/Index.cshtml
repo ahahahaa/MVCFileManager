@@ -45,10 +45,10 @@
                     <td>@file.Version</td>
 
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Home", htmlAttributes: new { id = file.FileId }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = file.FileId } ) |
                     </td>
                     <td>
-                        @Html.ActionLink("Details", "Details", "Home", routeValues: new { id = file.FileId }, htmlAttributes: null ) |
+                        @Html.ActionLink("Details", "Details", new { id = file.FileId } ) |
                     </td>
                     <td>
                         @Html.ActionLink("Delete", "Delete", new { id = file.FileId } )

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using MvcFileManager.Models;
 using MvcFileManager.Data_Access_Layer;
-using System.Data.Entity;
+using System.Data;
 
 namespace MvcFileManager.Business_Layer
 {
@@ -23,28 +23,35 @@ namespace MvcFileManager.Business_Layer
             return fmDAL.Files.ToList();
         }
 
-        public FileDB SaveFile(FileDB file)
+        public FileDB SaveFile(FileDB file, string action)
         {
-            int id = file.FileId;
-
             FileManagerDAL fmDAL = new FileManagerDAL();
-            FileDB record = fmDAL.Files.Find(id);
 
-            if (record == null || id == null)
+            switch (action)
             {
-                fmDAL.Files.Add(file);
-            }
-            else 
-            {
-                //fmDAL.Files.Attach(file);
-                //DbContext.Entry(file).State = System.Data.EntityState.Modified;
+                case "upload":
+                    file.Creater = "admin";
+                    file.UploadTime = DateTime.Now;
+                    file.ModifiedTime = DateTime.Now;
+                    file.Version = 1;
+                    file.isDelete = false;
+                    file.FormerId = null;
 
-                record.FileName = file.FileName;
-                record.FilePath = file.FilePath;
-                record.isDelete = file.isDelete;
-                record.ModifiedTime = file.ModifiedTime;
-                record.UploadTime = file.UploadTime;
-                record.Version = file.Version;
+                    fmDAL.Entry(file).State = EntityState.Added;
+
+                    break;
+            
+                case "delete":
+                    int id = file.FileId;
+                    FileDB record = fmDAL.Files.Find(id);
+
+                    record.isDelete = true;
+                    record.ModifiedTime = DateTime.Now;
+
+                    fmDAL.Entry(record).State = EntityState.Modified;
+
+                    break;
+
 
             }
             fmDAL.SaveChanges();

@@ -72,14 +72,8 @@ namespace MvcFileManager.Controllers
                         file.FilePath = Path.Combine(_uploadsFolder, UploadFile.FileName);
                         UploadFile.SaveAs(file.FilePath);
 
-                        file.Creater = "Admin";
-                        file.UploadTime = DateTime.Now;
-                        file.ModifiedTime = DateTime.Now;
-                        file.Version = 1;
-                        file.isDelete = false;
-
                         FileBusinessLayer fbl = new FileBusinessLayer();
-                        fbl.SaveFile(file);
+                        fbl.SaveFile(file, "upload");
 
                         return RedirectToAction("Index");
 
@@ -109,7 +103,7 @@ namespace MvcFileManager.Controllers
 
             if (file == null)
             {
-                return JavaScript("Error" + id);
+                return HttpNotFound();
             }
 
             DisplayFileViewModel pfvm = new DisplayFileViewModel();
@@ -140,7 +134,15 @@ namespace MvcFileManager.Controllers
             return View("Edit", new CreateFileViewModel());
         }
 
+        //
+        //Get:
+        public ActionResult Delete(int id)
+        {
+            return RedirectToAction("Index");
+        }
 
+        //
+        //Post:
         public ActionResult Delete(FormCollection fcNotUsed, int id)
         {
             FileBusinessLayer fbl = new FileBusinessLayer();
@@ -151,10 +153,7 @@ namespace MvcFileManager.Controllers
                 return HttpNotFound();
             }
             
-            file.ModifiedTime = DateTime.Now;
-            file.isDelete = true;
-
-            fbl.SaveFile(file);
+            fbl.SaveFile(file, "delete");
  
             return RedirectToAction("Index");
         }
