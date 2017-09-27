@@ -1,0 +1,34 @@
+﻿table.sample {  
+    border-collapse: collapse;  
+    width: 95%;  
+    margin: 10px;  
+    font-size: 1em;  
+}  
+  
+table.sample th {  
+    background: #d3d3d3;  
+    font-weight: bold;  
+    padding: 10px 11px;  
+    text-align: left;  
+    border-right: 1px solid #fff;  
+    line-height: 1.2;
+    font-size: 1em;   
+}  
+  
+table.sample td {  
+    padding: 6px 11px;  
+    border-bottom: 1px solid #d3d3d3;  
+    vertical-align: top;  
+}  
+  
+table.sample td * {  
+    padding: 6px 11px;  
+}  
+  
+table.sample tr.alt td {  
+    background: #ecf6fc;  
+}  
+  
+table.sample tr.over td {  
+    background: #bcd4ec;  
+}  

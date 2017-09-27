@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "UserIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using MvcFileManager.ViewModels
+@model UserListViewModel
+
+<body>
+    <div id="tabs-2">
+        <table class="sample">
+            <tr>
+                <th>User Name</th>
+                <th>Upload permission</th>
+                <th>Search permission</th>
+                <th>Modify & Delete permission</th>
+            </tr>
+
+            @foreach (UserViewModel user in Model.UserList)
+            { 
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.isUpload</td>
+                    <td>@user.isSearch</td>
+                    <td>@user.isModify</td>
+
+                    @*<td>
+                        @Html.ActionLink("History", "History", new { id = file.FileId } ) |
+                        @Html.ActionLink("Edit", "Edit", new { id = file.FileId } ) |
+                        @Html.ActionLink("Details", "Details", new { id = file.FileId } ) |
+                        @Html.ActionLink("Delete", "Delete", new { id = file.FileId } )
+                    </td>*@
+                </tr>
+            }
+        </table>
+    </div>
+</body>

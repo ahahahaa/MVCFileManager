@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using MvcFileManager.ViewModels
+@model FileViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TextContent</title>
+</head>
+<body>
+    <div>
+        <h2>File Details Information</h2>
+    </div>
+    <div>
+        <ul>
+            <li>
+                <h4>File Name:</h4><br />
+                @Model.FileName
+            </li>
+            <li>
+                <h4>Creater:</h4><br />
+                @Model.Creater
+            </li>
+            <li>
+                <h4>File Upload Time:</h4><br />
+                @Model.UploadTime
+            </li>
+            <li>
+                <h4>File Last Midified Time:</h4><br />
+                @Model.ModifiedTime
+            </li>
+            <li>
+                <h4>File Version:</h4><br />
+                No. @Model.Version
+            </li>
+            <li>
+                <h4>File:</h4><br />
+                <hr />
+                <div contenteditable="true">
+                    <textarea>
+                        @Model.FileContent
+                    </textarea>
+                </div>
+                <hr />
+            </li>
+        </ul>
+    </div>
+    <div>
+        @Html.ActionLink("Edit File", "Edit", new { id = @Model.FileId } )
+        <input type="button" name="BtnReturn" id="BtnReturn" onclick="self.location.href='/Home/Index'" value="Return to Homepage" />
+    </div>
+</body>
+</html>
