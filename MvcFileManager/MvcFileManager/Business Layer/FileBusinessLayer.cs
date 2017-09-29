@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
 using MvcFileManager.Models;
 using MvcFileManager.Data_Access_Layer;
-using System.Data;
+
 
 namespace MvcFileManager.Business_Layer
 {
@@ -26,51 +27,57 @@ namespace MvcFileManager.Business_Layer
         public FileDB SaveFile(FileDB file, string action)
         {
             FileManagerDAL fmDAL = new FileManagerDAL();
+            FileDB target;
+            if (file.FileId != 0)
+            {
+                target = fmDAL.Files.Find(file.FileId);
+            }
+            else
+            {
+                target = file;
+            }
 
             switch (action)
             {
                 case "upload":
-                    file.Creater = "admin";
-                    file.UploadTime = DateTime.Now;
-                    file.ModifiedTime = DateTime.Now;
-                    file.Version = 1;
-                    file.isDelete = false;
-                    file.FormerId = null;
-
-                    fmDAL.Entry(file).State = EntityState.Added;
-                    break;
-            
-                case "delete":
-                    int id = file.FileId;
-                    FileDB record = fmDAL.Files.Find(id);
-
-                    record.isDelete = true;
-                    record.FilePath = null;
-                    record.ModifiedTime = DateTime.Now;
-
-                    fmDAL.Entry(record).State = EntityState.Modified;
-                    break;
-
-                case "modify":
-                    FileDB parentFile = fmDAL.Files.Find(file.FileId);
-                    
-                    file.Creater = parentFile.Creater;
-                    file.UploadTime = parentFile.UploadTime;
-                    file.ModifiedTime = DateTime.Now;
-                    if(file.Version == 0)
                     {
-                        file.Version = parentFile.Version + 1;
+                        target.UploadTime = DateTime.Now;
+                        target.ModifiedTime = DateTime.Now;
+                        target.Version = 1;
+                        target.FormerId = null;
+
+                        fmDAL.Entry(target).State = EntityState.Added;
+                        break;
                     }
-                    file.isDelete = false;
-                    file.FormerId = parentFile;
+                case "mark delete":
+                    {
+                        target.isDelete = true;
+                        //target.FilePath = null;
+                        target.ModifiedTime = DateTime.Now;
 
-                    fmDAL.Entry(file).State = EntityState.Added;
+                        fmDAL.Entry(target).State = EntityState.Modified;
+                        break;
+                    }
+                case "delete":
+                    {
+                        target.FilePath = null;
+                        target.ModifiedTime = DateTime.Now;
+                        fmDAL.Entry(target).State = EntityState.Modified;
+                        break;
+                    }
+                case "modify":
+                    {
+                        file.UploadTime = target.UploadTime;
+                        file.ModifiedTime = DateTime.Now;
+                        file.FormerId = target;
 
-                    parentFile.isDelete = true;
-                    fmDAL.Entry(parentFile).State = EntityState.Modified;
+                        fmDAL.Entry(file).State = EntityState.Added;
 
-                    break;
+                        target.isDelete = true;
+                        fmDAL.Entry(target).State = EntityState.Modified;
 
+                        break;
+                    }
             }
             fmDAL.SaveChanges();
             return file;

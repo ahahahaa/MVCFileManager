@@ -11,11 +11,13 @@ namespace MvcFileManager.ViewModels
 
         public string UserName { get; set; }
 
-        public bool isUpload { get; set; }
+        public bool isUploadPM { get; set; }
 
-        public bool isSearch { get; set; }
+        public bool isSearchPM { get; set; }
 
-        public bool isModify { get; set; }
+        public bool isModifyPM { get; set; }
+
+        public bool isDeletePM { get; set; }
 
     }
 }

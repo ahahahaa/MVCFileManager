@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "HOME";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head{
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/table.css")    
+}
+
+@section Scripts{
+    <script type="text/javascript">  
+        $(function () {  
+            $("#tabs").tabs();
+        });
+        $("#VersionCompare").click(function () {
+            
+
+            $.ajax({
+                url: "/Home/VersionCompare",
+                type: 'POST',
+                async: false,
+                data: {  },
+                success: function (resultData) {
+                    if (resultData['err']) {
+                        alert(resultData["message"]);
+                    }
+                    alert("Edit Success");
+                    location.href = "/Home/History";
+                }
+            });
+        });
+    </script>  
+}
+
+@using MvcFileManager.ViewModels
+@model FileListViewModel
+
+<body>
+    <div id="tabs" style="min-height:450px">
+        <div id="tabs-2">
+            <h3 style="margin: 10px 1px 5px 10px;float:left"><a href="/Home/Index">Home</a>/File History</h3>
+            <input type="button" id="VersionCompare" name="BtnSubmit" class="float-right" style="margin-right: 35px;" value="version compare"/>
+            <table class="sample">
+                <tr>
+                    <th>Version</th>
+                    <th>File Name</th>
+                    <th>Version</th>
+                    <th>Creator</th>
+                    <th>Upload Time</th>
+                    <th>Operation</th>
+                    <th>Status</th>
+                </tr>
+                 @foreach (FileViewModel file in Model.FileList)
+                { 
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>@file.FileName</td>
+                        <td>@file.Version</td>
+                        <td>@file.Creater</td>
+                        <td>@file.UploadTime</td>
+                        <td>
+                            @if (file.FileContent == null)
+                            { 
+                                <p>Can't Edit!</p>
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Details", "Details", new { id = file.FileId } )
+                                <br /><br />
+                                @Html.ActionLink("ReEdit", "Edit", new { id = file.FileId } )
+                            }
+                        </td>
+                        <td>
+                            @if (file.FileContent == null)
+                            {
+                                <p>File Deleted!</p>
+                            }
+                            else
+                            {
+                                 @Html.ActionLink("Delete Version", "ConfirmDelete", new { id = file.FileId })
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</body>
+

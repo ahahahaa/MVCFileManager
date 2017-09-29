@@ -2,36 +2,100 @@
     ViewBag.Title = "UserIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Head{
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/table.css")    
+}
+@section Scripts{
+    <script type="text/javascript">  
+        $(function () {  
+            $("#tabs").tabs();
+            $("table").on("click", ".savePermission", function () {
+                var $this = $(this);
+                var $tr = $this.parent('td').parent('tr');
+                var isUploadPM = $('input[name="UploadPM"]', aa).get(0).checked;
+                var isSearchPM = $('input[name="SearchPM"]', aa).get(0).checked;
+                var isModifyPM = $('input[name="ModifyPM"]', aa).get(0).checked;
+                var isDeletePM = $('input[name="DeletePM"]', aa).get(0).checked; //选中为true,未选中为false
+
+                var UserId = $tr.data('userid');
+                $.ajax({
+                    url: "/User/SavePermission",
+                    type: 'POST',
+                    async: false,
+                    data: { 'UserId': UserId, 'isDeletePM': isDeletePM, 'isModifyPM': isModifyPM, 'isSearchPM': isSearchPM, 'isUploadPM': isUploadPM },
+                    success: function (resultData) {
+                        if (resultData['err']) {
+                            alert(resultData["message"]);
+                        }
+                        alert("Save Success");
+                        location.href = "/User/UserIndex";
+                    }
+                });
+            });
+        });  
+    </script>  
+}
 
 @using MvcFileManager.ViewModels
 @model UserListViewModel
 
 <body>
-    <div id="tabs-2">
-        <table class="sample">
-            <tr>
-                <th>User Name</th>
-                <th>Upload permission</th>
-                <th>Search permission</th>
-                <th>Modify & Delete permission</th>
-            </tr>
-
-            @foreach (UserViewModel user in Model.UserList)
-            { 
+    <div id="tabs" style="min-height:450px">
+        @Html.Partial("../Shared/_body_header")
+        <div id="tabs-2">
+            <table class="sample">
                 <tr>
-                    <td>@user.UserName</td>
-                    <td>@user.isUpload</td>
-                    <td>@user.isSearch</td>
-                    <td>@user.isModify</td>
-
-                    @*<td>
-                        @Html.ActionLink("History", "History", new { id = file.FileId } ) |
-                        @Html.ActionLink("Edit", "Edit", new { id = file.FileId } ) |
-                        @Html.ActionLink("Details", "Details", new { id = file.FileId } ) |
-                        @Html.ActionLink("Delete", "Delete", new { id = file.FileId } )
-                    </td>*@
+                    <th>User Name</th>
+                    <th>Upload_p</th>
+                    <th>Search_p</th>
+                    <th>Modify_p</th>
+                    <th>Delete_p</th>
+                    <th>Operation</th>
                 </tr>
-            }
-        </table>
-    </div>
+
+                @foreach (UserViewModel user in Model.UserList)
+                { 
+                    <tr data-userid="@user.UserId">
+                        <td>@user.UserName</td>
+                        <td>
+                            @if(@user.isUploadPM){
+                               <input name="UploadPM" type="checkbox" checked="checked" /> 
+                            } else{
+                               <input name="UploadPM" type="checkbox"/> 
+                            }
+                        </td>
+                        <td>
+                            @if (@user.isSearchPM)
+                            {
+                               <input name="SearchPM" type="checkbox" checked="checked" /> 
+                            } else{
+                               <input name="SearchPM" type="checkbox"/> 
+                            }
+                        </td>
+                        <td>
+                            @if (@user.isModifyPM)
+                            {
+                               <input name="ModifyPM" type="checkbox" checked="checked" /> 
+                            } else{
+                               <input name="ModifyPM" type="checkbox"/> 
+                            }
+                        </td>
+                        <td>
+                            @if (@user.isDeletePM)
+                            {
+                               <input name="DeletePM" type="checkbox" checked="checked" /> 
+                            } else{
+                               <input name="DeletePM" type="checkbox"/> 
+                            }
+                        </td>
+                        <td>
+                           <a class="savePermission" href="#">save</a> |
+                           @Html.ActionLink("deleteUser", "Delete", new { id = user.UserId })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+   </div>
 </body>

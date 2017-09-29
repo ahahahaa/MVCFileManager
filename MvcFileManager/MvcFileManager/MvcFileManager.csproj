@@ -192,22 +192,33 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709280221205_initalUser.cs" />
-    <Compile Include="Migrations\201709280221205_initalUser.Designer.cs">
-      <DependentUpon>201709280221205_initalUser.cs</DependentUpon>
+    <Compile Include="Migrations\201709280729284_init.cs" />
+    <Compile Include="Migrations\201709280729284_init.Designer.cs">
+      <DependentUpon>201709280729284_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709280746217_changeUserPermisionname.cs" />
+    <Compile Include="Migrations\201709280746217_changeUserPermisionname.Designer.cs">
+      <DependentUpon>201709280746217_changeUserPermisionname.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709280852390_fk.cs" />
+    <Compile Include="Migrations\201709280852390_fk.Designer.cs">
+      <DependentUpon>201709280852390_fk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709280855005_deleteco.cs" />
+    <Compile Include="Migrations\201709280855005_deleteco.Designer.cs">
+      <DependentUpon>201709280855005_deleteco.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\FileDB.cs" />
+    <Compile Include="Models\UserStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\CreateFileViewModel.cs" />
     <Compile Include="ViewModels\FileListViewModel.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
     <Compile Include="ViewModels\UserListViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\FileManagerDAL.sdf" />
     <Content Include="Content\table.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -314,8 +325,6 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -327,6 +336,9 @@
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\User\UserIndex.cshtml" />
     <Content Include="Views\Home\SearchIndex.cshtml" />
+    <Content Include="Views\Shared\_body_header.cshtml" />
+    <Content Include="Views\Home\Historys.cshtml" />
+    <Content Include="Views\Home\Versions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -335,8 +347,17 @@
     <Folder Include="App_Data\Document\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709280221205_initalUser.resx">
-      <DependentUpon>201709280221205_initalUser.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709280729284_init.resx">
+      <DependentUpon>201709280729284_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709280746217_changeUserPermisionname.resx">
+      <DependentUpon>201709280746217_changeUserPermisionname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709280852390_fk.resx">
+      <DependentUpon>201709280852390_fk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709280855005_deleteco.resx">
+      <DependentUpon>201709280855005_deleteco.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

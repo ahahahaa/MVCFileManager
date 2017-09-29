@@ -20,17 +20,14 @@
 @model FileListViewModel
 <body>
     <div id="tabs" style="min-height:450px">
-        <ul>
-        <li><a href="#tabs-1">File Manager List</a></li>
-        <li><a href="#tabs-2">User Manager List</a></li>
-        </ul>
+        @Html.Partial("../Shared/_body_header")
         <div id="tabs-1">
             <div>
-                <button style="margin-left:10px"><a class="ui-button ui-button-text" href="/Home/Upload">Upload</a></button>
+                <button style="margin-left:10px;margin-top:10px" onclick="location.href='@Url.Action("SaveFile", "Home")'">Upload</button>
             </div>
             <table class="sample">
             <tr>
-                <th>File Name</th>
+                <th>FileName</th>
                 <th>Creater</th>
                 <th>Upload Time</th>
                 <th>Version</th>
@@ -54,10 +51,6 @@
                 </tr>
             }
         </table>
-        </div>
-
-        <div id="tabs-2">
-            <p></p>
         </div>
     </div>
 </body>

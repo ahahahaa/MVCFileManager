@@ -5,13 +5,13 @@ namespace MvcFileManager.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class initalUser : IMigrationMetadata
+    public sealed partial class fk : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initalUser));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(fk));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709280221205_initalUser"; }
+            get { return "201709280852390_fk"; }
         }
         
         string IMigrationMetadata.Source

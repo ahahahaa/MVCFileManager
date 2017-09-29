@@ -1,55 +1,83 @@
 ﻿@{
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @using MvcFileManager.ViewModels
-@model CreateFileViewModel
+@model FileViewModel
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>TextContent</title>
-    <script>
+@section Scripts{
+    <script type="text/javascript"> 
+        $("#Savefile").click(function () {
+            var FileId = $("#FileId").val();
+            var FileName = $("#FileName").val();
+            var FileVersion = $("#FileVersion").text()
+            var FileContent = $("#FileContent").text();
+            $.ajax({
+                url: "/Home/Edit",
+                type: 'POST',
+                async: false,
+                data: { 'FileId': FileId, 'FileName': FileName, 'FileVersion': FileVersion, 'FileContent': FileContent },
+                success: function (resultData) {
+                    if (resultData['err']) {
+                        alert(resultData["message"]);
+                    }
+                    alert("Edit Success");
+                    location.href = "/home/index";
+                }
+            });
+        });
+        function CancelForm() {
+            window.history.go(-1);
+            location.reload;
+        }
         function ResetForm() {
-            document.getElementById('TxtFileName').value = "";
-            document.getElementById('TxtVersion').value = "";
-            document.getElementById('TxtContent').value = "";
+            document.getElementById('FileName').value = "@Model.FileName";
         }
     </script>
-</head>
+}
+
 <body>
     <div>
         <h2>Edit File Content</h2>
     </div>
     <div>
         <form action="/Home/Edit" method="post" enctype="multipart/form-data">
-            <ul>
-                <li>
-                    <h4>File ID is: @Model.FileId</h4>
-                    <input type="hidden" id="HiddenId" name="FileId" value="@Model.FileId" />
-                </li>
-                <li>
-                    <h4>File Name:</h4><br />
-                    <input type="text" id="TxtFileName" name="FileName" value="@Model.FileName" />
-                </li>
-                <li>
-                    <h4>File Version:</h4><br />
-                    <input type="text" id="TxtVersion" name="Version" value="@Model.Version" />
-                </li>
-                <li>
-                    <h4>New File:</h4><br />
-                    <input type="file" id="FileContext" name="UploadFile" value="" />
-                </li>
-            </ul>
+            <input id="FileId" name="FileId" value="@Model.FileId" hidden />
+            <table>
+                <tr>
+                    <th>
+                        File Version:
+                    </th>
+                    <td id="FileVersion">
+                        @Model.Version
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        File Name: 
+                    </th>
+                    <td>
+                        <input type="text" id="FileName" name="FileName" value="@Model.FileName" />
+                    </td>
+                </tr>
+                <tr>
+                    <th style="vertical-align: text-top;">File Content:</th>
+                    <td>
+                        <div style="background-color:white" contenteditable="true" id="FileContent">
+                            <pre>
+                             @Model.FileContent
+                             </pre>
+                        </div>
+                    </td>
+                </tr>
+            </table>
             <div>
-                <input type="submit" name="BtnSubmit" value="Save" />
+                <input type="button" id="Savefile" name="BtnSubmit" value="Save" />
                 <input type="button" name="BtnReset" value="Reset" onclick="ResetForm();" />
-                <input type="submit" name="BtnSubmit" value="Cancel" />
+                <input type="button" name="BtnCancel" value="Cancel" onclick="CancelForm()" />
             </div>
         </form>
     </div>
     
 </body>
-</html>

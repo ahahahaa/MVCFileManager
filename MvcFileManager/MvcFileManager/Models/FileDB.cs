@@ -36,7 +36,7 @@ namespace MvcFileManager.Models
 
         public string FilePath { get; set; }
 
-        public FileDB FormerId { get; set; }
+        public virtual FileDB FormerId { get; set; }
 
         public bool isDelete { get; set; }
 

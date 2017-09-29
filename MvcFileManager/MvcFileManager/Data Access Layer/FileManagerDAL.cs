@@ -16,12 +16,13 @@ namespace MvcFileManager.Data_Access_Layer
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<FileDB>().ToTable("TblFileDB");
-            //modelBuilder.Entity<UserProfile>().ToTable("UserProfileDB");
+            modelBuilder.Entity<UserProfile>().ToTable("UserProfileDB");
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<FileDB> Files { get; set; }
-        //public DbSet<UserProfile> Profiles { get; set; }
+
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
     }
 }

@@ -2,57 +2,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts{
+    <script type="text/javascript">  
+        function CancelForm() {
+            window.history.go(-1);
+            location.reload;
+        } 
+    </script>  
+}
+
 @using MvcFileManager.ViewModels
 @model FileViewModel
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>TextContent</title>
-</head>
 <body>
-    <div>
-        <h2>File Details Information</h2>
-    </div>
-    <div>
-        <ul>
-            <li>
-                <h4>File Name:</h4><br />
-                @Model.FileName
-            </li>
-            <li>
-                <h4>Creater:</h4><br />
-                @Model.Creater
-            </li>
-            <li>
-                <h4>File Upload Time:</h4><br />
-                @Model.UploadTime
-            </li>
-            <li>
-                <h4>File Last Midified Time:</h4><br />
-                @Model.ModifiedTime
-            </li>
-            <li>
-                <h4>File Version:</h4><br />
-                No. @Model.Version
-            </li>
-            <li>
-                <h4>File:</h4><br />
-                <hr />
-                <div contenteditable="true">
-                    <textarea>
-                        @Model.FileContent
-                    </textarea>
-                </div>
-                <hr />
-            </li>
-        </ul>
-    </div>
-    <div>
-        @Html.ActionLink("Edit File", "Edit", new { id = @Model.FileId } )
-        <input type="button" name="BtnReturn" id="BtnReturn" onclick="self.location.href='/Home/Index'" value="Return to Homepage" />
+    <div style="background-color:white">
+        <div>
+            <h2>File Details Information</h2>
+        </div>
+        <div>
+            <div>
+                <strong>File Name:&nbsp&nbsp</strong>@Model.FileName&nbsp&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp
+                <strong>Creater:&nbsp&nbsp</strong>@Model.Creater<br />
+                <strong>File Upload Time:&nbsp&nbsp</strong>@Model.UploadTime &nbsp&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp
+                <strong>File Last Midified Time:&nbsp&nbsp</strong> @Model.ModifiedTime<br />
+                <strong>File Version:&nbsp&nbsp</strong> No.@Model.Version
+            </div>
+            <h5>File Content:</h5><br />
+            <div style="border:1px solid">
+                <pre>
+                 @Model.FileContent
+                 </pre>
+            </div>
+        </div>
+        <div>
+            <input type="button" onclick="self.location.href = '/Home/Edit/'+@Model.FileId" value="Edit" />
+            <input type="button" onclick="CancelForm()" value="Return" />
+        </div>
     </div>
 </body>
-</html>
+

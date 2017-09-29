@@ -5,6 +5,7 @@ using System.Threading;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 using MvcFileManager.Models;
+using MvcFileManager.Data_Access_Layer;
 
 namespace MvcFileManager.Filters
 {
@@ -25,11 +26,11 @@ namespace MvcFileManager.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer<FileManagerDAL>(null);
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new FileManagerDAL())
                     {
                         if (!context.Database.Exists())
                         {

@@ -10,6 +10,7 @@ using MvcFileManager.Data_Access_Layer;
 
 namespace MvcFileManager.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         //
@@ -29,9 +30,10 @@ namespace MvcFileManager.Controllers
                     UserViewModel uvm = new UserViewModel();
                     uvm.UserId = user.UserId;
                     uvm.UserName = user.UserName;
-                    uvm.isUpload = user.isUpload;
-                    uvm.isSearch = user.isSearch;
-                    uvm.isModify = user.isModify;
+                    uvm.isUploadPM = user.isUploadPM;
+                    uvm.isSearchPM = user.isSearchPM;
+                    uvm.isModifyPM = user.isModifyPM;
+                    uvm.isDeletePM = user.isDeletePM;
                     uvmlist.Add(uvm);
                 }
             }
@@ -40,6 +42,61 @@ namespace MvcFileManager.Controllers
             ulvm.isAdmin = true;
 
             return View("UserIndex", ulvm);
+        }
+
+        //
+        //Post: /User/SavePermission
+        public ActionResult SavePermission()
+        {
+            int UserId = int.Parse(Request["UserId"]);
+            System.Diagnostics.Debug.Write(UserId);
+            var result = new { err = false, message = "no err" };
+
+            UserBusinessLayer ubl = new UserBusinessLayer();
+            UserProfile user = ubl.GetUser(UserId);
+
+            if (user == null || user.isDeleteUser)
+            {
+                return HttpNotFound();
+            }
+
+            user.isSearchPM = bool.Parse(Request["isSearchPM"]);
+            //if (user.isSearchPM) { return Content("true"); }
+            //else { return Content("false" + Request["isSearchPM"]); }
+            user.isUploadPM = bool.Parse(Request["isUploadPM"]);
+            user.isModifyPM = bool.Parse(Request["isModifyPM"]);
+            user.isDeletePM = bool.Parse(Request["isDeletePM"]);
+
+            user = ubl.ModifyUser(user);
+            if (user.isDeleteUser)
+            {
+                result = new { err = true, message = "Error occurs, modify failed" };
+                return Json(result);
+            }
+            return Json(result);
+        }
+
+
+        //
+        //Post: /User/Delete
+        public ActionResult Delete(FormCollection fcNotUsed, int id)
+        {
+            UserBusinessLayer ubl = new UserBusinessLayer();
+            UserProfile user = ubl.GetUser(id);
+
+            if (user == null || user.isDeleteUser)
+            {
+                return HttpNotFound();
+            }
+
+            user.isDeleteUser = true;
+            ubl.ModifyUser(user);
+
+            if (!user.isDeleteUser)
+            {
+                return Content("Error occurs");
+            }
+            return RedirectToAction("UserIndex");
         }
 
     }

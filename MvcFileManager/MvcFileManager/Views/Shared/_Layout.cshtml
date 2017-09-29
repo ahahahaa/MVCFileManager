@@ -8,7 +8,7 @@
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
         @Styles.Render("~/Content/themes/base/jquery-ui.css")
-        @RenderSection("head", required: false);
+        @RenderSection("head", required: false)
     </head>
     <body>
         <header>
@@ -26,7 +26,7 @@
         </header>
         <div id="body">
             @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
+            <section class="content-wrapper main-content clear-fix"  style="margin: 0px 100px;">
                 @RenderBody()
             </section>
         </div>

@@ -8,16 +8,6 @@ using System.Web.Security;
 
 namespace MvcFileManager.Models
 {
-    public class UsersContext : DbContext
-    {
-        public UsersContext()
-            : base("FileManagerDAL")
-        {
-
-        }
-
-        public DbSet<UserProfile> UserProfiles { get; set; }
-    }
 
     [Table("UserProfileDB")]
     public class UserProfile
@@ -28,11 +18,13 @@ namespace MvcFileManager.Models
 
         public string UserName { get; set; }
 
-        public bool isUpload { get; set; }
+        public bool isUploadPM { get; set; }
 
-        public bool isSearch { get; set; }
+        public bool isSearchPM { get; set; }
 
-        public bool isModify { get; set; }
+        public bool isModifyPM { get; set; }
+
+        public bool isDeletePM { get; set; }
 
         public bool isDeleteUser { get; set; }
 

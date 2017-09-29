@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MvcFileManager.Models;
 
 namespace MvcFileManager.ViewModels
 {
@@ -21,7 +22,7 @@ namespace MvcFileManager.ViewModels
 
         public string FileContent { get; set; }
 
-        public int FormerId { get; set; }
+        public FileDB FormerId { get; set; }
 
     }
 }

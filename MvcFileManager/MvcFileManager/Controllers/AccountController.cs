@@ -10,6 +10,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using MvcFileManager.Filters;
 using MvcFileManager.Models;
+using MvcFileManager.Data_Access_Layer;
 
 namespace MvcFileManager.Controllers
 {
@@ -23,6 +24,7 @@ namespace MvcFileManager.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+           
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -263,7 +265,7 @@ namespace MvcFileManager.Controllers
             if (ModelState.IsValid)
             {
                 // Insert a new user into the database
-                using (UsersContext db = new UsersContext())
+                using (FileManagerDAL db = new FileManagerDAL())
                 {
                     UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                     // Check if user already exists

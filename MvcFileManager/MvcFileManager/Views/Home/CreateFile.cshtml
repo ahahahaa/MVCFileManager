@@ -3,7 +3,7 @@
 }
 
 @using MvcFileManager.ViewModels
-@model CreateFileViewModel
+@model FileViewModel
 
 <!DOCTYPE html>
 
@@ -15,6 +15,10 @@
         function ResetForm() {
             document.getElementById('TxtFileName').value = "";
             document.getElementById('FileContext').value = "";
+        }
+        function CancelForm() {
+            window.history.go(-1);
+            location.reload;
         }
     </script>
 </head>
@@ -44,7 +48,7 @@
                     <td colspan="3">
                         <input type="submit" name="BtnSubmit" value="Save File" />
                         <input type="button" name="BtnReset" value="Reset" onclick="ResetForm();" />
-                        <input type="submit" name="BtnSubmit" value="Cancel" />
+                        <input type="button" name="BtnCancel" value="Cancel" onclick="CancelForm();" />
                     </td>
                 </tr>
             </table>
