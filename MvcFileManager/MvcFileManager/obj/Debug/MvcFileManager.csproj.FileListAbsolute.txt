@@ -249,6 +249,7 @@ C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcF
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\bin\ru\System.Spatial.resources.dll
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\bin\zh-Hans\System.Spatial.resources.dll
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\bin\zh-Hant\System.Spatial.resources.dll
-C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.csprojResolveAssemblyReference.cache
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.dll
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.pdb
+C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.Migrations.initalUser.resources
+C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.csproj.GenerateResource.Cache

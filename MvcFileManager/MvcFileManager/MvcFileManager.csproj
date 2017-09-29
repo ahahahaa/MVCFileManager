@@ -192,6 +192,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709280221205_initalUser.cs" />
+    <Compile Include="Migrations\201709280221205_initalUser.Designer.cs">
+      <DependentUpon>201709280221205_initalUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\FileDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -202,6 +207,7 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\FileManagerDAL.sdf" />
     <Content Include="Content\table.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -320,12 +326,18 @@
     <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\User\UserIndex.cshtml" />
+    <Content Include="Views\Home\SearchIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Document\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709280221205_initalUser.resx">
+      <DependentUpon>201709280221205_initalUser.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MvcFileManager.ViewModels.FileViewModel>
+
+@{
+    ViewBag.Title = "SearchIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SearchIndex</h2>
+<hr />
+<p> 
+      
+      @using (Html.BeginForm()){    
+          <p> Title: @Html.TextBox("SearchString") <br />   
+          <input type="submit" value="Filter" /></p> 
+         } 
+
+</p>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FileId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Creater)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UploadTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Version)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creater)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UploadTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Version)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.FileId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.FileId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.FileId })
+        </td>
+    </tr>
+}
+
+</table>

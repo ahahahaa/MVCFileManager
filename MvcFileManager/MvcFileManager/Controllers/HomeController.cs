@@ -46,17 +46,37 @@ namespace MvcFileManager.Controllers
             return View("Index", flvm);
         }
 
+        //
+        //Get: /Home/SearchIndex
+        public ActionResult SearchIndex(string keyword)
+        {
+            FileBusinessLayer fbl = new FileBusinessLayer();
+            var files = from f in fbl.GetFiles() select f;
+            if (!String.IsNullOrEmpty(keyword))
+            {
+                files = files.Where(s => s.FileName.Contains(keyword));
+            }
+            return View("SearchIndex", files);
+        
+        }
+
+
         //public ActionResult GetUploadLink()
         //{
         //    return PartialView("GetUploadLink");
         //}
+
+        //
+        //Get: /Home/Upload
 
         public ActionResult Upload()
         {
             return View("CreateFile", new CreateFileViewModel());
         }
 
-        //Post:
+        //
+        //Post: /Home/SaveFile
+
         [HttpPost]
         public ActionResult SaveFile(FileDB file, string BtnSubmit, HttpPostedFileBase UploadFile)
         {
@@ -91,7 +111,9 @@ namespace MvcFileManager.Controllers
             return Content("Upload Error! File is empty");
         }
 
-        //Get: Edit
+        //
+        //Get: /Home/Edit
+
         [HttpGet]
         public ActionResult Edit(int id = 0)
         {
@@ -110,7 +132,9 @@ namespace MvcFileManager.Controllers
             return View("Edit", cfvm);
         }
 
-        //Post: Edit
+        //
+        //Post: /Home/Edit
+
         [HttpPost]
         public ActionResult Edit(FileDB file, string BtnSubmit, HttpPostedFileBase UploadFile)
         {
@@ -136,6 +160,8 @@ namespace MvcFileManager.Controllers
             return RedirectToAction("Index");
         }
 
+        //
+        //Get: /Home/Details
 
         public ActionResult Details(int id)
         {
@@ -167,8 +193,9 @@ namespace MvcFileManager.Controllers
         }
 
 
-        
-        //Post:
+        //
+        //Post: /Home/Delete
+
         public ActionResult Delete(FormCollection fcNotUsed, int id)
         {
             FileBusinessLayer fbl = new FileBusinessLayer();
@@ -183,18 +210,5 @@ namespace MvcFileManager.Controllers
             return RedirectToAction("Index");
         }
 
-        //public ActionResult About()
-        //{
-        //    ViewBag.Message = "Your app description page.";
-
-        //    return View();
-        //}
-
-        //public ActionResult Contact()
-        //{
-        //    ViewBag.Message = "Your contact page.";
-
-        //    return View();
-        //}
     }
 }
