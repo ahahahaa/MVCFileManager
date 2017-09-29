@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201709280855005_deleteco.Designer.cs">
       <DependentUpon>201709280855005_deleteco.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709291451023_changeIsSearch.cs" />
+    <Compile Include="Migrations\201709291451023_changeIsSearch.Designer.cs">
+      <DependentUpon>201709291451023_changeIsSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\FileDB.cs" />
@@ -358,6 +362,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709280855005_deleteco.resx">
       <DependentUpon>201709280855005_deleteco.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709291451023_changeIsSearch.resx">
+      <DependentUpon>201709291451023_changeIsSearch.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

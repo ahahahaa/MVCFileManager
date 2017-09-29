@@ -347,3 +347,4 @@ C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcF
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.csproj.GenerateResource.Cache
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.dll
 C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.pdb
+C:\Users\Zhechen Zhang\Documents\Visual Studio 2012\Projects\MvcFileManager\MvcFileManager\obj\Debug\MvcFileManager.Migrations.changeIsSearch.resources

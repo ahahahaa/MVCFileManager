@@ -13,10 +13,10 @@
             $("table").on("click", ".savePermission", function () {
                 var $this = $(this);
                 var $tr = $this.parent('td').parent('tr');
-                var isUploadPM = $('input[name="UploadPM"]', aa).get(0).checked;
-                var isSearchPM = $('input[name="SearchPM"]', aa).get(0).checked;
-                var isModifyPM = $('input[name="ModifyPM"]', aa).get(0).checked;
-                var isDeletePM = $('input[name="DeletePM"]', aa).get(0).checked; //选中为true,未选中为false
+                var isUploadPM = $('input[name="UploadPM"]', $tr).get(0).checked;
+                var isSearchPM = $('input[name="SearchPM"]', $tr).get(0).checked;
+                var isModifyPM = $('input[name="ModifyPM"]', $tr).get(0).checked;
+                var isDeletePM = $('input[name="DeletePM"]', $tr).get(0).checked; //选中为true,未选中为false
 
                 var UserId = $tr.data('userid');
                 $.ajax({
