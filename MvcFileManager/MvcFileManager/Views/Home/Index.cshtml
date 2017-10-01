@@ -18,39 +18,51 @@
 
 @using MvcFileManager.ViewModels
 @model FileListViewModel
+
 <body>
     <div id="tabs" style="min-height:450px">
         @Html.Partial("../Shared/_body_header")
         <div id="tabs-1">
-            <div>
-                <button style="margin-left:10px;margin-top:10px" onclick="location.href='@Url.Action("SaveFile", "Home")'">Upload</button>
-            </div>
             <table class="sample">
-            <tr>
-                <th>FileName</th>
-                <th>Creater</th>
-                <th>Upload Time</th>
-                <th>Version</th>
-                <th>operation</th>
-            </tr>
-
-            @foreach (FileViewModel file in Model.FileList)
-            { 
                 <tr>
-                    <td>@file.FileName</td>
-                    <td>@file.Creater</td>
-                    <td>@file.UploadTime</td>
-                    <td>@file.Version</td>
-
-                    <td>
-                        @Html.ActionLink("History", "History", new { id = file.FileId } ) |
-                        @Html.ActionLink("Edit", "Edit", new { id = file.FileId } ) |
-                        @Html.ActionLink("Details", "Details", new { id = file.FileId } ) |
-                        @Html.ActionLink("Delete", "Delete", new { id = file.FileId } )
-                    </td>
+                    <th>FileName</th>
+                    <th>Creater</th>
+                    <th>Upload Time</th>
+                    <th>Version</th>
+                    @if (!Model.Permission.Equals("NonAuthenticatedUser"))
+                    {
+                         <th>operation</th>
+                    }
+                    
                 </tr>
-            }
-        </table>
+
+                @foreach (FileViewModel file in Model.FileList)
+                { 
+                    <tr>
+                        <td>@file.FileName</td>
+                        <td>@file.Creater</td>
+                        <td>@file.UploadTime</td>
+                        <td>@file.Version</td>
+                        @if (!Model.Permission.Equals("NonAuthenticatedUser"))
+                        {
+                            <td>
+                                @Html.ActionLink("History", "History", new { id = file.FileId } )
+                                @if (!Model.Permission.Equals("AuthenticatedVisitor"))
+                                {
+                                    @Html.ActionLink("Edit", "Edit", new { id = file.FileId } )
+                                }
+                                @Html.ActionLink("Details", "Details", new { id = file.FileId } )
+                                @if (Model.Permission.Equals("AuthenticatedVipUser")
+                                    || Model.Permission.Equals("AuthenticatedAdmin"))
+                                {
+                                    @Html.ActionLink("Delete", "Delete", new { id = file.FileId } )
+                                }
+                                
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
         </div>
     </div>
 </body>

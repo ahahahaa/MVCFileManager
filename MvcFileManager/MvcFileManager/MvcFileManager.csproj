@@ -189,6 +189,7 @@
     <Compile Include="Data Access Layer\FileManagerDAL.cs" />
     <Compile Include="Business Layer\UserBusinessLayer.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Filters\PermissionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -208,9 +209,13 @@
     <Compile Include="Migrations\201709280855005_deleteco.Designer.cs">
       <DependentUpon>201709280855005_deleteco.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709291451023_changeIsSearch.cs" />
-    <Compile Include="Migrations\201709291451023_changeIsSearch.Designer.cs">
-      <DependentUpon>201709291451023_changeIsSearch.cs</DependentUpon>
+    <Compile Include="Migrations\201709291428062_changeisSearchPM.cs" />
+    <Compile Include="Migrations\201709291428062_changeisSearchPM.Designer.cs">
+      <DependentUpon>201709291428062_changeisSearchPM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709291447121_changPM.cs" />
+    <Compile Include="Migrations\201709291447121_changPM.Designer.cs">
+      <DependentUpon>201709291447121_changPM.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -221,6 +226,7 @@
     <Compile Include="ViewModels\FileViewModel.cs" />
     <Compile Include="ViewModels\UserListViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\VersionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\table.css" />
@@ -335,7 +341,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\GetUploadLink.cshtml" />
-    <Content Include="Views\Home\CreateFile.cshtml" />
+    <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\User\UserIndex.cshtml" />
@@ -343,6 +349,8 @@
     <Content Include="Views\Shared\_body_header.cshtml" />
     <Content Include="Views\Home\Historys.cshtml" />
     <Content Include="Views\Home\Versions.cshtml" />
+    <Content Include="Views\User\UserManagerList.cshtml" />
+    <Content Include="Views\Home\GetEditLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -363,8 +371,11 @@
     <EmbeddedResource Include="Migrations\201709280855005_deleteco.resx">
       <DependentUpon>201709280855005_deleteco.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709291451023_changeIsSearch.resx">
-      <DependentUpon>201709291451023_changeIsSearch.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709291428062_changeisSearchPM.resx">
+      <DependentUpon>201709291428062_changeisSearchPM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709291447121_changPM.resx">
+      <DependentUpon>201709291447121_changPM.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

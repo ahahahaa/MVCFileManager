@@ -1,10 +1,11 @@
 ﻿@{
-    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using MvcFileManager.ViewModels
-@model FileViewModel
+@section Head{
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/table.css")    
+}
 
 @section Scripts{
     <script type="text/javascript"> 
@@ -27,15 +28,20 @@
                 }
             });
         });
-        function CancelForm() {
-            window.history.go(-1);
-            location.reload;
-        }
-        function ResetForm() {
+
+        $("#Reset").click(function () {
             document.getElementById('FileName').value = "@Model.FileName";
-        }
+
+        });
+
+        $("#Cancel").click(function () {
+            window.history.go(-1);
+        });
     </script>
 }
+
+@using MvcFileManager.ViewModels
+@model FileViewModel
 
 <body>
     <div>
@@ -44,19 +50,16 @@
     <div>
         <form action="/Home/Edit" method="post" enctype="multipart/form-data">
             <input id="FileId" name="FileId" value="@Model.FileId" hidden />
-            <table>
+            <table class="sample">
                 <tr>
-                    <th>
-                        File Version:
-                    </th>
+                    <th>File Version:</th>
                     <td id="FileVersion">
                         @Model.Version
+
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        File Name: 
-                    </th>
+                    <th>File Name:</th>
                     <td>
                         <input type="text" id="FileName" name="FileName" value="@Model.FileName" />
                     </td>
@@ -67,16 +70,18 @@
                         <div style="background-color:white" contenteditable="true" id="FileContent">
                             <pre>
                              @Model.FileContent
-                             </pre>
+                            </pre>
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="button" id="Savefile" name="BtnSubmit" value="Save" />
+                        <input type="button" id="Reset" name="BtnReset" value="Reset" />
+                        <input type="button" id="Cancel" name="BtnCancel" value="Cancel" />
+                    </td>
+                </tr>
             </table>
-            <div>
-                <input type="button" id="Savefile" name="BtnSubmit" value="Save" />
-                <input type="button" name="BtnReset" value="Reset" onclick="ResetForm();" />
-                <input type="button" name="BtnCancel" value="Cancel" onclick="CancelForm()" />
-            </div>
         </form>
     </div>
     

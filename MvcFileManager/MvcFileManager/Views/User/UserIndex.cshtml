@@ -16,7 +16,7 @@
                 var isUploadPM = $('input[name="UploadPM"]', $tr).get(0).checked;
                 var isSearchPM = $('input[name="SearchPM"]', $tr).get(0).checked;
                 var isModifyPM = $('input[name="ModifyPM"]', $tr).get(0).checked;
-                var isDeletePM = $('input[name="DeletePM"]', $tr).get(0).checked; //选中为true,未选中为false
+                var isDeletePM = $('input[name="DeletePM"]', $tr).get(0).checked;
 
                 var UserId = $tr.data('userid');
                 $.ajax({
@@ -28,7 +28,7 @@
                         if (resultData['err']) {
                             alert(resultData["message"]);
                         }
-                        alert("Save Success");
+                        alert("User Permissions Modified Success");
                         location.href = "/User/UserIndex";
                     }
                 });

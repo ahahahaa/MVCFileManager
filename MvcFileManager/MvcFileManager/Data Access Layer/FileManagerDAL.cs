@@ -9,10 +9,11 @@ namespace MvcFileManager.Data_Access_Layer
 {
     public class FileManagerDAL : DbContext
     {
-        //public FileManagerDAL()
-        //    : base("FileDB")
-        //{ }
-
+        /*
+        public FileManagerDAL() : base("FileDB")
+        { }
+         */
+ 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<FileDB>().ToTable("TblFileDB");

@@ -5,6 +5,7 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Hosting;
+using MvcFileManager.Filters;
 using MvcFileManager.Models;
 using MvcFileManager.ViewModels;
 using MvcFileManager.Business_Layer;
@@ -16,12 +17,17 @@ namespace MvcFileManager.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        //
+        //GLOBAL VALUE:
+
         private string _uploadsFolder = HostingEnvironment.MapPath("~/App_Data/Document/");
         private string fileTime = DateTime.Now.Year.ToString()+DateTime.Now.Month.ToString()+DateTime.Now.Day.ToString()+
                                   DateTime.Now.Hour.ToString()+DateTime.Now.Minute.ToString()+DateTime.Now.Second.ToString()+
                                   DateTime.Now.Millisecond.ToString();
 
-        
+        //
+        //GET: Home/Index
+
         public ActionResult Index()
         {
             FileListViewModel flvm = new FileListViewModel();
@@ -44,12 +50,13 @@ namespace MvcFileManager.Controllers
             }
 
             flvm.FileList = evmlist;
-            flvm.UserName = User.Identity.Name;
+            flvm.Permission = Convert.ToString(Session["Permission"]);
             return View("Index", flvm);
         }
 
         //
-        //Get: /Home/SearchIndex
+        //GET: /Home/SearchIndex
+
         public ActionResult SearchIndex(string keyword)
         {
             FileBusinessLayer fbl = new FileBusinessLayer();
@@ -59,27 +66,39 @@ namespace MvcFileManager.Controllers
                 files = files.Where(s => s.FileName.Contains(keyword));
             }
             return View("SearchIndex", files);
-        
         }
 
+        //
+        //GET: /Home/GetUploadLink
 
-        //public ActionResult GetUploadLink()
-        //{
-        //    return PartialView("GetUploadLink");
-        //}
+        public ActionResult GetUploadLink()
+        {
+            if(Session["Permission"] != null && 
+                (UserStatus)Session["Permission"] != UserStatus.NonAuthenticatedUser &&
+                (UserStatus)Session["Permission"] != UserStatus.AuthenticatedVisitor)
+            {
+                return PartialView("GetUploadLink");
+            }
+            else
+            {
+                return new EmptyResult();
+            }
+        }
 
         //
-        //Get: /Home/Upload
+        //GET: /Home/SaveFile
 
+        [PermissionFilter]
         public ActionResult SaveFile()
         {
-            return View("CreateFile", new FileViewModel());
+            return View("Upload", new FileViewModel());
         }
 
         //
-        //Post: /Home/SaveFile
+        //POST: /Home/SaveFile
 
         [HttpPost]
+        [PermissionFilter]
         public ActionResult SaveFile(string fileName, HttpPostedFileBase uploadFile)
         {
             if (uploadFile != null && fileName != null)
@@ -87,26 +106,43 @@ namespace MvcFileManager.Controllers
                 FileDB file = new FileDB();
                 file.FileName = fileName;
                 file.Creater = User.Identity.Name;
-                file.FilePath = Path.Combine(_uploadsFolder, uploadFile.FileName);
-                uploadFile.SaveAs(file.FilePath);
+                file.FilePath = uploadFile.FileName;
+                uploadFile.SaveAs(Path.Combine(_uploadsFolder,file.FilePath));
 
                 FileBusinessLayer fbl = new FileBusinessLayer();
                 fbl.SaveFile(file, "upload");
-
                 return RedirectToAction("Index");
             }
             else
             {
                 FileViewModel fvm = new FileViewModel();
                 fvm.FileName = fileName;
-                return View("CreateFile", fvm);
+                return View("Upload", fvm);
             }
         }
 
         //
-        //Get: /Home/Edit
+        //GET: /Home/GetEditLink
 
-        [HttpGet]
+        public ActionResult GetEditLink(int id)
+        {
+            if (Session["Permission"] != null &&
+                (UserStatus)Session["Permission"] != UserStatus.NonAuthenticatedUser &&
+                (UserStatus)Session["Permission"] != UserStatus.AuthenticatedVisitor)
+            {
+                ViewBag.Id = id;
+                return PartialView("GetEditLink");
+            }
+            else
+            {
+                return new EmptyResult();
+            }
+        }
+
+        //
+        //GET: /Home/Edit
+
+        [PermissionFilter]
         public ActionResult Edit(int id = 0)
         {
             FileBusinessLayer fbl = new FileBusinessLayer();
@@ -116,51 +152,46 @@ namespace MvcFileManager.Controllers
             {
                 return HttpNotFound();
             }
+
             FileViewModel fvm = new FileViewModel();
             fvm.FileId = file.FileId;
             fvm.FileName = file.FileName;
             fvm.Version = file.Version + 1;
             if (file.FilePath != "")
             {
-                fvm.FileContent = System.IO.File.ReadAllText(file.FilePath);
+                fvm.FileContent = System.IO.File.ReadAllText(Path.Combine(_uploadsFolder, file.FilePath));
             }
             else
             {
                 fvm.FileContent = "File content is empty. Please check the file path!";
             }
-
             return View("Edit", fvm);
         }
 
         //
-        //Post: /Home/Edit
-
+        //POST: /Home/Edit
 
         [HttpPost]
-        // user Ajax communication return json
+        [PermissionFilter]
         public ActionResult Edit()
         {
-            //datas
             int FileId = int.Parse(Request["FileId"]);
             System.Diagnostics.Debug.Write(FileId);
             string FileName = Request["FileName"];
             int FileVersion = int.Parse(Request["FileVersion"]);
             string FileContent = Request["FileContent"];
-            //save file
+
             FileDB file = new FileDB();
             file.FileId = FileId;
             file.FileName = FileName;
-            file.FilePath = Path.Combine(_uploadsFolder, fileTime + "_" + FileVersion + "_" + FileName);
+            file.FilePath = fileTime + "_" + FileVersion + "_" + FileName;
             file.Creater = User.Identity.Name;
             file.Version = FileVersion;
 
-            FileStream fs = new FileStream(file.FilePath, FileMode.Create);
+            FileStream fs = new FileStream(Path.Combine(_uploadsFolder,file.FilePath), FileMode.Create);
             StreamWriter sw = new StreamWriter(fs);
-            //开始写入
             sw.Write(FileContent);
-            //清空缓冲区
             sw.Flush();
-            //关闭流
             sw.Close();
             fs.Close();
 
@@ -169,7 +200,6 @@ namespace MvcFileManager.Controllers
 
             var result = new { err = false, message = "no err" };
             return Json(result);
-            
                 /*
             catch
             {
@@ -179,10 +209,10 @@ namespace MvcFileManager.Controllers
                  * */
          }
 
-
         //
-        //Get: /Home/Details
+        //GET: /Home/Details
 
+        [PermissionFilter]
         public ActionResult Details(int id)
         {
             FileBusinessLayer fbl = new FileBusinessLayer();
@@ -202,20 +232,20 @@ namespace MvcFileManager.Controllers
             fvm.ModifiedTime = file.ModifiedTime;
             if (file.FilePath != "")
             {
-                fvm.FileContent = System.IO.File.ReadAllText(file.FilePath);
+                fvm.FileContent = System.IO.File.ReadAllText(Path.Combine(_uploadsFolder,file.FilePath));
             }
             else 
             {
                 fvm.FileContent = "File content is empty. Please check the file path!";
             }
             return View("Details", fvm);
-
         }
 
-
         //
-        //Post: /Home/Delete
+        //POST: /Home/Delete
+
         [HttpPost]
+        [PermissionFilter]
         public ActionResult Delete(FormCollection fcNotUsed, int id)
         {
             FileBusinessLayer fbl = new FileBusinessLayer();
@@ -231,8 +261,10 @@ namespace MvcFileManager.Controllers
         }
 
         //
-        //Post: /Home/ConfirmDelete
+        //POST: /Home/ConfirmDelete
+
         [HttpPost]
+        [PermissionFilter]
         public ActionResult ConfirmDelete(FormCollection fcNotUsed, int id)
         {
             FileBusinessLayer fbl = new FileBusinessLayer();
@@ -242,19 +274,17 @@ namespace MvcFileManager.Controllers
             {
                 return HttpNotFound();
             }
-
             //System.IO.File.Delete(file.FilePath);
             fbl.SaveFile(file, "delete");
             return RedirectToAction("Index");
-            
         }
     
-    
         //
-        //Get: /Home/History
+        //GET: /Home/History
+
+        [PermissionFilter]
         public ActionResult History(int id)
         {
-            //user SQL to filter  override
             FileListViewModel flvm = new FileListViewModel();
             FileBusinessLayer fbl = new FileBusinessLayer();
             List<FileDB> files = fbl.GetFiles();
@@ -264,7 +294,6 @@ namespace MvcFileManager.Controllers
             while (filenow != null)
             {
                 FileViewModel fvm = new FileViewModel();
-                System.Diagnostics.Debug.Write(filenow.FileId);
                 fvm.FileId = filenow.FileId;
                 fvm.FileName = filenow.FileName;
                 fvm.Creater = filenow.Creater;
@@ -272,21 +301,91 @@ namespace MvcFileManager.Controllers
                 fvm.Version = filenow.Version;
                 fvm.FileContent = filenow.FilePath;
                 evmlist.Add(fvm);
-                System.Diagnostics.Debug.Write(filenow.FormerId);
                 filenow = filenow.FormerId;
             }
 
             flvm.FileList = evmlist;
-            flvm.UserName = User.Identity.Name;
+            flvm.Permission = Convert.ToString(Session["Permission"]);
             return View("Historys", flvm);
         }
 
         //
-        //Post: /Home/VersionCompare
-        [HttpPost]
+        //POST: /Home/VersionCompare
+
+        [PermissionFilter]
         public ActionResult VersionCompare()
         {
-            return View("Versions");
+            int v1 = int.Parse(Request["v1"]);
+            int v2 = int.Parse(Request["v2"]);
+            FileBusinessLayer fbl = new FileBusinessLayer();
+            FileDB f1 = fbl.GetFile(v1);
+            FileDB f2 = fbl.GetFile(v2);
+
+            FileStream fs1 = new FileStream(Path.Combine(_uploadsFolder,f1.FilePath), FileMode.Open);
+            FileStream fs2 = new FileStream(Path.Combine(_uploadsFolder,f2.FilePath), FileMode.Open);
+            StreamReader sr1 = new StreamReader(fs1);
+            StreamReader sr2 = new StreamReader(fs2);
+            string content1=sr1.ReadLine();
+            while (content1.Trim() == null || content1.Trim().Equals(""))
+            {
+                content1 = sr1.ReadLine();
+            }
+
+            string content2 = sr2.ReadLine();
+            while (content2.Trim() == null || content2.Trim().Equals(""))
+            {
+                content2 = sr2.ReadLine();
+            }
+
+            string DiffContent = "\n";
+            int line = 1;
+
+            while(!sr1.EndOfStream || !sr2.EndOfStream)
+            {
+                System.Diagnostics.Debug.Write(content1);
+                System.Diagnostics.Debug.Write(content2);
+
+                if (sr1.EndOfStream)
+                {
+                    DiffContent += "In Line No." + line + ": " + "\n"
+                        + "         Version" + f1.Version + ": " + "File End." + "\n"
+                        + "         Version" + f2.Version + ": " + content2 + "\n\n";
+                }
+                else if (sr2.EndOfStream)
+                {
+                    DiffContent += "In Line No." + line + ": " + "\n"
+                        + "         Version" + f1.Version + ": " + content1 + "\n"
+                        + "         Version" + f2.Version + ": " + "File End." + "\n\n";
+                }
+                else if (!content1.Equals(content2))
+                {
+                    DiffContent += "In Line No." + line + ": " + "\n"
+                        + "         Version" + f1.Version + ": " + content1 + "\n"
+                        + "         Version" + f2.Version + ": " + content2 + "\n\n";
+                }
+
+                if (!sr1.EndOfStream) 
+                {
+                    content1 = sr1.ReadLine();
+                }
+                if (!sr2.EndOfStream) 
+                {
+                    content2 = sr2.ReadLine();
+                }
+                line++;
+            }
+
+            sr1.Close();
+            sr2.Close();
+            fs1.Close();
+            fs2.Close();
+
+            VersionViewModel vvm = new VersionViewModel();
+            vvm.FirstVersion = f1;
+            vvm.SecondVersion = f2;
+            vvm.DiffContent = DiffContent;
+
+            return View("Versions", vvm);
         }
 
     }

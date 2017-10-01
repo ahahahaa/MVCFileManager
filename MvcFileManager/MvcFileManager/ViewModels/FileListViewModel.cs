@@ -9,6 +9,6 @@ namespace MvcFileManager.ViewModels
     {
         public List<FileViewModel> FileList { get; set; }
 
-        public string UserName { get; set; }
+        public string Permission { get; set; }
     }
 }

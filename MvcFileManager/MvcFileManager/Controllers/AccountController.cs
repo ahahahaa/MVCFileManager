@@ -5,12 +5,15 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.SessionState;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using MvcFileManager.Filters;
 using MvcFileManager.Models;
 using MvcFileManager.Data_Access_Layer;
+using MvcFileManager.Business_Layer;
+
 
 namespace MvcFileManager.Controllers
 {
@@ -24,7 +27,6 @@ namespace MvcFileManager.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-           
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -39,6 +41,10 @@ namespace MvcFileManager.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                UserBusinessLayer ubl = new UserBusinessLayer();
+                UserProfile user = ubl.GetUserByUserName(model.UserName);
+                System.Diagnostics.Debug.Write(ubl.GetUserStatus(user));
+                Session["Permission"] = ubl.GetUserStatus(user);
                 return RedirectToLocal(returnUrl);
             }
 

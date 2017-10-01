@@ -1,5 +1,4 @@
 ﻿@{
-    ViewBag.Title = "HOME";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,39 +7,64 @@
     @Styles.Render("~/Content/table.css")    
 }
 
+@using MvcFileManager.ViewModels
+@model FileListViewModel
+
 @section Scripts{
-    <script type="text/javascript">  
-        $(function () {  
+    <script type="text/javascript"> 
+        $(function () {
             $("#tabs").tabs();
         });
+        /*
+        var checkboxcount = 0;
+        $("table").on('change', '.vercheck', function () {
+            $this = $(this);
+            if ($this.get(0).checked) {
+                checkboxcount = checkboxcount + 1;
+            } else {
+                checkboxcount = checkboxcount - 1;
+            }
+            if (checkboxcount > 2) {
+                alert("only compare two files version");
+                $this.attr("checked", false);
+                checkboxcount = checkboxcount - 1
+            }
+        });
+        */
         $("#VersionCompare").click(function () {
-            
-
-            $.ajax({
-                url: "/Home/VersionCompare",
-                type: 'POST',
-                async: false,
-                data: {  },
-                success: function (resultData) {
-                    if (resultData['err']) {
-                        alert(resultData["message"]);
-                    }
-                    alert("Edit Success");
-                    location.href = "/Home/History";
+            var FileversionIds = [];
+            var permission = $(this).data('permission');
+            $(":checkbox").each(function () {
+                if ($(this).is(':checked')) {
+                    FileversionIds.push($(this).data('fileid'));
                 }
             });
+            if (FileversionIds.length > 2) {
+                alert("Only choose two files version to compare!");
+                return;
+            }
+            if (permission != "NonAuthenticatedUser" && permission != "AuthenticatedVisitor") {
+                var v1 = FileversionIds[0];
+                var v2 = FileversionIds[1];
+                location.href = '/Home/VersionCompare?v1=' + v1 + '&&v2=' + v2;
+            } else {
+                alert("Insufficient permissions!");
+                return;
+            }
+            
+        });
+        
+        $("#Cancel").click(function () {
+            window.history.go(-1);
         });
     </script>  
 }
 
-@using MvcFileManager.ViewModels
-@model FileListViewModel
-
 <body>
     <div id="tabs" style="min-height:450px">
-        <div id="tabs-2">
-            <h3 style="margin: 10px 1px 5px 10px;float:left"><a href="/Home/Index">Home</a>/File History</h3>
-            <input type="button" id="VersionCompare" name="BtnSubmit" class="float-right" style="margin-right: 35px;" value="version compare"/>
+        <div>
+            <h2 style="margin: 10px 1px 5px 10px;float:left">File History</h2>
+            <input type="button" id="VersionCompare" name="BtnSubmit" class="float-right" style="margin-right: 35px;" value="version compare" data-permission="@Model.Permission"/>
             <table class="sample">
                 <tr>
                     <th>Version</th>
@@ -54,36 +78,58 @@
                  @foreach (FileViewModel file in Model.FileList)
                 { 
                     <tr>
-                        <td><input type="checkbox" /></td>
+                        <td>
+                            @if(file.FileContent != null)
+                            {
+                                <input class="vercheck" type="checkbox" data-fileid="@file.FileId"/>
+                            }
+                        </td>
                         <td>@file.FileName</td>
                         <td>@file.Version</td>
                         <td>@file.Creater</td>
                         <td>@file.UploadTime</td>
                         <td>
-                            @if (file.FileContent == null)
+                            @if (file.FileContent != null)
                             { 
-                                <p>Can't Edit!</p>
+                                @Html.ActionLink("Details", "Details", new { id = file.FileId } )
+                                <br /><br />
+                                if (!Model.Permission.Equals("AuthenticatedVisitor"))
+                                {
+                                    @Html.ActionLink("ReEdit", "Edit", new { id = file.FileId } )
+                                }
                             }
                             else
                             {
-                                @Html.ActionLink("Details", "Details", new { id = file.FileId } )
-                                <br /><br />
-                                @Html.ActionLink("ReEdit", "Edit", new { id = file.FileId } )
+                                <p>
+                                    Can't Edit!<br />
+                                    File dosen't exist.
+                                </p>
                             }
                         </td>
                         <td>
-                            @if (file.FileContent == null)
+                            @if (file.FileContent != null)
                             {
-                                <p>File Deleted!</p>
+                                if (Model.Permission.Equals("AuthenticatedVipUser")
+                                    || Model.Permission.Equals("AuthenticatedAdmin"))
+                                {
+                                    @Html.ActionLink("Delete Version", "ConfirmDelete", new { id = file.FileId })
+                                }
+                                else
+                                {
+                                    <p>File Exists!</p>
+                                }
                             }
                             else
                             {
-                                 @Html.ActionLink("Delete Version", "ConfirmDelete", new { id = file.FileId })
+                                 <p>File Deleted!</p>
                             }
                         </td>
                     </tr>
                 }
             </table>
+            <div>
+                <input type="button" id="Cancel" name="BtnCancel" value="Return" />
+            </div>
         </div>
     </div>
 </body>

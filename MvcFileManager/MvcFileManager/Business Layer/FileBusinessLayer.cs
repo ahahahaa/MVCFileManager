@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Data;
 using MvcFileManager.Models;
 using MvcFileManager.Data_Access_Layer;
@@ -9,9 +10,9 @@ using MvcFileManager.Data_Access_Layer;
 
 namespace MvcFileManager.Business_Layer
 {
+    [Authorize]
     public class FileBusinessLayer
     {
-
         public FileDB GetFile(int id)
         {
             FileManagerDAL fmDAL = new FileManagerDAL();
@@ -52,7 +53,6 @@ namespace MvcFileManager.Business_Layer
                 case "mark delete":
                     {
                         target.isDelete = true;
-                        //target.FilePath = null;
                         target.ModifiedTime = DateTime.Now;
 
                         fmDAL.Entry(target).State = EntityState.Modified;
@@ -62,6 +62,7 @@ namespace MvcFileManager.Business_Layer
                     {
                         target.FilePath = null;
                         target.ModifiedTime = DateTime.Now;
+
                         fmDAL.Entry(target).State = EntityState.Modified;
                         break;
                     }
@@ -70,18 +71,15 @@ namespace MvcFileManager.Business_Layer
                         file.UploadTime = target.UploadTime;
                         file.ModifiedTime = DateTime.Now;
                         file.FormerId = target;
+                        target.isDelete = true;
 
                         fmDAL.Entry(file).State = EntityState.Added;
-
-                        target.isDelete = true;
                         fmDAL.Entry(target).State = EntityState.Modified;
-
                         break;
                     }
             }
             fmDAL.SaveChanges();
             return file;
         }
-
     }
 }

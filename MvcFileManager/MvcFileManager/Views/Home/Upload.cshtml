@@ -1,0 +1,93 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head{
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/table.css")    
+}
+
+@using MvcFileManager.ViewModels
+@model FileViewModel
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#tabs").tabs();
+        });
+        /*
+        $("#Savefile").click(function () {
+            var FileId = $("#FileId").val();
+            var FileName = $("#FileName").val();
+            var FileVersion = $("#FileVersion").text()
+            var FileContent = $("#FileContent").text();
+            $.ajax({
+                url: "/Home/Edit",
+                type: 'POST',
+                async: false,
+                data: { 'FileId': FileId, 'FileName': FileName, 'FileVersion': FileVersion, 'FileContent': FileContent },
+                success: function (resultData) {
+                    if (resultData['err']) {
+                        alert(resultData["message"]);
+                    }
+                    alert("Edit Success");
+                    location.href = "/home/index";
+                }
+            });
+        });
+        */
+
+        $("#Reset").click(function () {
+            document.getElementById('TxtFileName').value = "";
+            document.getElementById('FileContent').value = "";
+        });
+
+        $("#Cancel").click(function () {
+            location.href='@Url.Action("Index", "Home")'
+        });
+    </script>  
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UploadFile</title>
+</head>
+
+<body>
+    <div id="tabs" style="min-height:450px">
+        @Html.Partial("../Shared/_body_header")
+        <div>
+            <form action="/Home/SaveFile" method="post" enctype="multipart/form-data">
+                <table class="sample">
+                    <tr>
+                        <th>
+                            File Name: 
+                        </th>
+                        <td>
+                            <input type="text" id="TxtFileName" name="FileName" value="@Model.FileName" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Upload File:
+                        </th>
+                        <td>
+                            <input type="file" id="FileContent" name="UploadFile" value="" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">
+                            <input type="submit" id="SaveFile" name="BtnSubmit" value="Save File" />
+                            <input type="button" id="Reset" name="BtnReset" value="Reset" />
+                            <input type="button" id="Cancel" name="BtnCancel" value="Cancel" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

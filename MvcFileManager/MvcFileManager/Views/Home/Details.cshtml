@@ -2,12 +2,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Head{
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/table.css")    
+}
+
 @section Scripts{
-    <script type="text/javascript">  
-        function CancelForm() {
+    <script type="text/javascript">
+        $("#Cancel").click(function () {
             window.history.go(-1);
-            location.reload;
-        } 
+        });
     </script>  
 }
 
@@ -15,29 +19,50 @@
 @model FileViewModel
 
 <body>
-    <div style="background-color:white">
+    <div style="min-height:450px">
         <div>
             <h2>File Details Information</h2>
         </div>
-        <div>
-            <div>
-                <strong>File Name:&nbsp&nbsp</strong>@Model.FileName&nbsp&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp
-                <strong>Creater:&nbsp&nbsp</strong>@Model.Creater<br />
-                <strong>File Upload Time:&nbsp&nbsp</strong>@Model.UploadTime &nbsp&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp
-                <strong>File Last Midified Time:&nbsp&nbsp</strong> @Model.ModifiedTime<br />
-                <strong>File Version:&nbsp&nbsp</strong> No.@Model.Version
-            </div>
-            <h5>File Content:</h5><br />
-            <div style="border:1px solid">
-                <pre>
-                 @Model.FileContent
-                 </pre>
-            </div>
-        </div>
-        <div>
-            <input type="button" onclick="self.location.href = '/Home/Edit/'+@Model.FileId" value="Edit" />
-            <input type="button" onclick="CancelForm()" value="Return" />
-        </div>
+        <table class="sample">
+            <tr>
+                <th>File Name</th>
+                <td>@Model.FileName</td>
+            </tr>
+            <tr>
+                <th>Creater</th>
+                <td>@Model.Creater</td>
+            </tr>
+            <tr>
+                <th>Version:</th>
+                <td>Version&nbsp @Model.Version</td>
+            </tr>
+            <tr>
+                <th>File Upload Time:</th>
+                <td>@Model.UploadTime</td>
+            </tr>
+            <tr>
+                <th>Last Midified Time:</th>
+                <td>@Model.ModifiedTime</td>
+            </tr>
+            <tr>
+                <th style="vertical-align: text-top;">File Content:</th>
+                <td>
+                    <div style="background-color:white" contenteditable="true">
+                        <pre>
+                         @Model.FileContent
+                        </pre>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @{
+                        Html.RenderAction("GetEditLink", "Home", new { id = Model.FileId });
+                    }
+                    <input type="button" id="Cancel" value="Return" />
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 

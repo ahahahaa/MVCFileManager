@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MvcFileManager.Models;
+using MvcFileManager.Filters;
 using MvcFileManager.ViewModels;
 using MvcFileManager.Business_Layer;
 using MvcFileManager.Data_Access_Layer;
@@ -14,8 +15,25 @@ namespace MvcFileManager.Controllers
     public class UserController : Controller
     {
         //
-        // GET: /User/
+        //GET: /User/GetUserManagerLink
 
+        public ActionResult GetUserManagerLink()
+        {
+            if ((Session["Permission"] != null) &&
+                ((UserStatus)Session["Permission"] == UserStatus.AuthenticatedAdmin))
+            {
+                return PartialView("UserManagerList");
+            }
+            else
+            {
+                return new EmptyResult();
+            }
+        }
+        
+        //
+        // GET: /User/UserIndex
+
+        [PermissionFilter]
         public ActionResult UserIndex()
         {
             UserListViewModel ulvm = new UserListViewModel();
@@ -37,7 +55,6 @@ namespace MvcFileManager.Controllers
                     uvmlist.Add(uvm);
                 }
             }
-
             ulvm.UserList = uvmlist;
             ulvm.isAdmin = true;
 
@@ -45,11 +62,13 @@ namespace MvcFileManager.Controllers
         }
 
         //
-        //Post: /User/SavePermission
+        //POST: /User/SavePermission
+
+        [HttpPost]
+        [PermissionFilter]
         public ActionResult SavePermission()
         {
             int UserId = int.Parse(Request["UserId"]);
-            System.Diagnostics.Debug.Write(UserId);
             var result = new { err = false, message = "no err" };
 
             UserBusinessLayer ubl = new UserBusinessLayer();
@@ -61,8 +80,6 @@ namespace MvcFileManager.Controllers
             }
 
             user.isSearchPM = bool.Parse(Request["isSearchPM"]);
-            //if (user.isSearchPM) { return Content("true"); }
-            //else { return Content("false" + Request["isSearchPM"]); }
             user.isUploadPM = bool.Parse(Request["isUploadPM"]);
             user.isModifyPM = bool.Parse(Request["isModifyPM"]);
             user.isDeletePM = bool.Parse(Request["isDeletePM"]);
@@ -76,9 +93,11 @@ namespace MvcFileManager.Controllers
             return Json(result);
         }
 
-
         //
-        //Post: /User/Delete
+        //POST: /User/Delete
+
+        [HttpPost]
+        [PermissionFilter]
         public ActionResult Delete(FormCollection fcNotUsed, int id)
         {
             UserBusinessLayer ubl = new UserBusinessLayer();
@@ -90,8 +109,8 @@ namespace MvcFileManager.Controllers
             }
 
             user.isDeleteUser = true;
-            ubl.ModifyUser(user);
 
+            ubl.ModifyUser(user);
             if (!user.isDeleteUser)
             {
                 return Content("Error occurs");

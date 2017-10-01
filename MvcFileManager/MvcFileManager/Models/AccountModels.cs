@@ -8,7 +8,6 @@ using System.Web.Security;
 
 namespace MvcFileManager.Models
 {
-
     [Table("UserProfileDB")]
     public class UserProfile
     {

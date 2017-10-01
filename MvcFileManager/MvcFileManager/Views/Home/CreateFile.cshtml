@@ -18,11 +18,13 @@
         }
         function CancelForm() {
             window.history.go(-1);
-            location.reload;
         }
     </script>
 </head>
 <body>
+    <div>
+        <h2>Upload New File</h2>
+    </div>
     <div>
         <form action="/Home/SaveFile" method="post" enctype="multipart/form-data">
             <table>

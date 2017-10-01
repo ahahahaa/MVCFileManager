@@ -1,5 +1,4 @@
 ﻿@{
-    ViewBag.Title = "Versions";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,4 +7,65 @@
     @Styles.Render("~/Content/table.css")    
 }
 
-<h2>Versions</h2>
+@section Scripts{
+    <script type="text/javascript">
+        $("#Cancel").click(function () {
+            window.history.go(-1);
+        });
+    </script>  
+}
+
+@using MvcFileManager.ViewModels
+@model VersionViewModel
+
+<body>
+    <div style="min-height:450px">
+        <div>
+            <h2>Version Compare</h2>
+        </div>
+        <div>
+            <table class="sample">
+                <tr>
+                    <th>Compare Version</th>
+                    <th>Version&nbsp @Model.FirstVersion.Version</th>
+                    <th>Version&nbsp @Model.SecondVersion.Version</th>
+                </tr>
+                <tr>
+                    <th>File Name</th>
+                    <td>@Model.FirstVersion.FileName</td>
+                    <td>@Model.SecondVersion.FileName</td>
+                </tr>
+                <tr>
+                    <th>Creater</th>
+                    <td>@Model.FirstVersion.Creater</td>
+                    <td>@Model.SecondVersion.Creater</td>
+                </tr>
+                <tr>
+                    <th>First Upload Time</th>
+                    <td>@Model.FirstVersion.UploadTime</td>
+                    <td>@Model.SecondVersion.UploadTime</td>
+                </tr>
+                <tr>
+                    <th>Last Modified Time</th>
+                    <td>@Model.FirstVersion.ModifiedTime</td>
+                    <td>@Model.SecondVersion.ModifiedTime</td>
+                </tr>
+                <tr>
+                    <th>Content Compare</th>
+                    <td colspan="2">
+                        <div style="border: 1px solid">
+                            <pre>
+                            @Model.DiffContent
+                            </pre>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" id="Cancel" name="BtnCancel" value="Return" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
